@@ -1,6 +1,6 @@
 namespace sharpJParse;
 
-public interface CollectionNode
+public interface CollectionNode : Node
 {
     
      bool IsScalar() {
@@ -14,7 +14,7 @@ public interface CollectionNode
     Node GetNode(object key);
      
 
-    List<List<Token>> ChildrenTokens();
+    List<IList<Token>> ChildrenTokens();
 
     // ArrayNode AsArray() {
     //     return (ArrayNode ) this;

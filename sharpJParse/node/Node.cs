@@ -5,14 +5,14 @@ public interface Node : CharSequence
     
     NodeType Type();
 
-    List<Token> Tokens();
+    IList<Token> Tokens();
 
     Token RootElementToken();
 
     CharSource CharSource();
 
-    bool isScalar();
-    bool isCollection();
+    bool IsScalar();
+    bool IsCollection();
     
     ScalarNode AsScalar() {
         return (ScalarNode) this;
