@@ -45,11 +45,11 @@ public class RootNode : CollectionNode {
             case TokenTypes.ARRAY_TOKEN:
                 return GetArrayNode().ChildrenTokens();
             default:
-                return doGetChildrenTokens();
+                return DoGetChildrenTokens();
         }
     }
 
-    private List<IList<Token>> doGetChildrenTokens() {
+    private List<IList<Token>> DoGetChildrenTokens() {
             return ((CollectionNode) GetNode()).ChildrenTokens();
     }
 
@@ -64,7 +64,7 @@ public class RootNode : CollectionNode {
         return _root;
     }
 
-    public PathNode getPathNode() {
+    public PathNode GetPathNode() {
         if (_root == null) {
             _root = new PathNode((TokenSubList) _tokens.SubList(0, _tokens.size()), charSource());
         }
@@ -93,8 +93,8 @@ public class RootNode : CollectionNode {
         return (StringNode) this.GetNode();
     }
 
-    public String GetString() {
-        return getStringNode().toString();
+    public string GetString() {
+        return getStringNode().ToString();
     }
 
     public int GetInt() {
@@ -178,8 +178,8 @@ public class RootNode : CollectionNode {
     }
 
 
-    public int HashCode() {
-        //return GetNode().HashCode(); TODO fix 
+    public int GetHashCode() {
+        //return GetNode().GetHashCode(); TODO fix 
         return 1;
     }
 
@@ -197,5 +197,319 @@ public class RootNode : CollectionNode {
     public CharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
+    }
+}
+
+
+
+public class StringNode : ScalarNode, CharSequence {
+
+    private readonly Token _token;
+    private readonly CharSource _source;
+    private readonly int _length;
+    private readonly int _start;
+    private readonly int _end;
+    private readonly bool _encodeStringByDefault;
+    private int _hashCode = 0;
+    private  bool _hashCodeSet = false;
+
+    public StringNode(Token token, CharSource source, bool encodeStringByDefault) {
+        _token = token;
+        _source = source;
+        _start = token.startIndex;
+        _end = token.endIndex;
+        _encodeStringByDefault = encodeStringByDefault;
+        _length = token.endIndex - token.startIndex;
+    }
+
+    public StringNode(Token token, CharSource source) {
+        this._token = token;
+        this._source = source;
+        _start = token.startIndex;
+        _end = token.endIndex;
+        this._encodeStringByDefault = true;
+        this._length = token.endIndex - token.startIndex;
+    }
+
+    public NodeType Type() {
+        return NodeType.STRING;
+    }
+    
+    public IList<Token> Tokens() {
+        return new SingletonList<Token>(this._token);
+    }
+
+
+    public Token RootElementToken() {
+        return _token;
+    }
+
+    public CharSource CharSource() {
+        return _source;
+    }
+
+    public bool IsScalar()
+    {
+        return true;
+    }
+
+    public bool IsCollection()
+    {
+        return false;
+    }
+
+
+    public Object Value() {
+        return ToString();
+    }
+
+
+    public int Length() {
+        return _length;
+    }
+
+
+    public char CharAt(int index) {
+        return _source.GetChartAt(_token.startIndex + index);
+    }
+
+  
+    public CharSequence SubSequence(int start, int end) {
+        return _source.GetCharSequence(start + this._start, end + this._start);
+    }
+
+    public CharSequence CharSequence() {
+        return _source.GetCharSequence(this._start, this._end);
+    }
+
+  
+    public string ToString() {
+        return _encodeStringByDefault ? _source.ToEncodedStringIfNeeded(_start, _end) : _source.GetString(_start, _end);
+    }
+
+    public string ToEncodedString() {
+        return _source.GetEncodedString(_start, _end);
+    }
+
+    public string ToUnencodedString() {
+        return _source.GetString(_start, _end);
+    }
+
+
+    public override bool Equals(object o) {
+        if (this == o) return true;
+        if (o is CharSequence) {
+            CharSequence other = (CharSequence) o;
+            return CharSequenceUtils.Equals(this, other);
+        } else {
+            return false;
+        }
+    }
+
+
+    public override int GetHashCode() {
+        if (_hashCodeSet) {
+            return _hashCode;
+        }
+        _hashCode = CharSequenceUtils.GetHashCode(this);
+        _hashCodeSet = true;
+        return _hashCode;
+    }
+}
+
+
+public class NullNode : ScalarNode {
+
+
+    private readonly Token _token;
+    private readonly CharSource _source;
+
+
+    public NullNode( Token token,  CharSource source) {
+        _token = token;
+        _source = source;
+    }
+
+    public NodeType Type() {
+        return NodeType.NULL;
+    }
+
+
+    public IList<Token> Tokens() {
+        return new SingletonList<Token>(_token);
+    }
+    
+    public Token RootElementToken() {
+        return _token;
+    }
+
+    
+    public CharSource CharSource() {
+        return _source;
+    }
+
+    public bool IsScalar()
+    {
+        return true;
+    }
+
+    public bool IsCollection()
+    {
+        return false;
+    }
+
+
+    public int Length() {
+        return 4;
+    }
+
+    public CharSequence SubSequence(int start, int end)
+    {
+        throw new NotImplementedException();
+    }
+
+    public char CharAt(int index) {
+        switch (index) {
+            case 0:
+                return 'n';
+            case 1:
+                return 'u';
+            case 2:
+            case 3:
+                return 'l';
+            default:
+                throw new InvalidOperationException();
+        }
+    }
+
+    public object Value() {
+        return null;
+    }
+
+    public override string ToString() {
+        return "null";
+    }
+
+    public override bool Equals(object o) {
+        if (this == o) return true;
+        if (o is null || GetType() != o.GetType()) return false;
+        return true;
+    }
+
+
+    public override int GetHashCode() {
+        return ToString().GetHashCode();
+    }
+
+}
+
+
+public class BooleanNode : ScalarNode {
+
+    private readonly Token _token;
+    private readonly CharSource _source;
+    private readonly bool _value;
+
+    public BooleanNode( Token token,  CharSource source) {
+        _token = token;
+        _source = source;
+        _value = _source.GetChartAt(_token.startIndex) == 't';
+    }
+
+    public NodeType Type() {
+        return NodeType.BOOLEAN;
+    }
+
+    public IList<Token> Tokens() {
+        return new SingletonList<Token>(_token);
+    }
+
+    public Token RootElementToken() {
+        return _token;
+    }
+
+    public CharSource CharSource() {
+        return _source;
+    }
+
+    public bool IsScalar()
+    {
+        return true;
+    }
+
+    public bool IsCollection()
+    {
+        return false;
+    }
+
+
+    public bool BooleanValue() {
+        return _value;
+    }
+
+
+
+    public int Length() {
+        return _value ? 4 : 5;
+    }
+
+    public CharSequence SubSequence(int start, int end)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public object Value() {
+        return BooleanValue();
+    }
+
+    public char CharAt(int index) {
+        if (_value) {
+            switch (index) {
+                case 0:
+                    return 't';
+                case 1:
+                    return 'r';
+                case 2:
+                    return 'u';
+                case 3:
+                    return 'e';
+                default:
+                    throw new InvalidOperationException();
+            }
+        } else {
+            switch (index) {
+                case 0:
+                    return 'f';
+                case 1:
+                    return 'a';
+                case 2:
+                    return 'l';
+                case 3:
+                    return 's';
+                case 4:
+                    return 'e';
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+    }
+
+
+    public override string ToString() {
+        return _value ? "true" : "false";
+    }
+
+
+    public override bool Equals(Object o) {
+        if (this == o) return true;
+        if (o == null || GetType() != o.GetType()) return false;
+        BooleanNode that = (BooleanNode) o;
+        return _value == that._value;
+    }
+
+
+    public override int GetHashCode() {
+        return ToString().GetHashCode();
     }
 }

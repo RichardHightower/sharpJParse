@@ -4,12 +4,12 @@ namespace sharpJParse;
 
 public interface ScalarNode : Node
 {
-    bool IsScalar()
+    new bool  IsScalar()
     {
         return true;
     }
 
-    bool IsCollection()
+    new bool IsCollection()
     {
         return false;
     }

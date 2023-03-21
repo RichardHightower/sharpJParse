@@ -142,7 +142,7 @@ public class ArrayNode : Collection<Node>, CollectionNode {
     }
 
     public string GetString(int index) {
-        return GetStringNode(index).toString();
+        return GetStringNode(index).ToString();
     }
 
     public ObjectNode GetObject(int index) {
@@ -161,6 +161,11 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         return GetBooleanNode(index).booleanValue();
     }
 
+    public char CharAt(int index)
+    {
+        throw new NotImplementedException();
+    }
+
     public int Length() {
         return Elements().Length;
     }
@@ -177,11 +182,6 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         return _rootToken;
     }
 
-    public CharSource CharSource()
-    {
-        throw new NotImplementedException();
-    }
-
     public bool IsScalar()
     {
         return false;
@@ -192,7 +192,7 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         return true;
     }
 
-    public CharSource charSource() {
+    public CharSource CharSource() {
         return _source;
     }
 
@@ -227,11 +227,11 @@ public class ArrayNode : Collection<Node>, CollectionNode {
     }
 
 
-    public int HashCode() {
+    public int GetHashCode() {
         if (_hashCodeSet) {
             return _hashCode;
         }
-        //TODO _hashCode = _tokens.Map(tok => tok.AsString(this._source)).ToList().HashCode();
+        //TODO _hashCode = _tokens.Map(tok => tok.AsString(this._source)).ToList().GetHashCode();
         _hashCode = 1;
         _hashCodeSet = true;
         return _hashCode;

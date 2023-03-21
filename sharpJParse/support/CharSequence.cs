@@ -3,8 +3,8 @@ namespace sharpJParse;
 public interface CharSequence
 {
     string ToString();
-    char GetCharAt(int index);
-    int GetLength();
+    char CharAt(int index);
+    int Length();
 
     CharSequence SubSequence(int start, int end);
 }
