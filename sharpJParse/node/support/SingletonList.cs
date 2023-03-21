@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace sharpJParse.support;
+namespace sharpJParse.node.support;
 
 public class SingletonList<T> : IList<T>
 {
@@ -50,15 +50,9 @@ public class SingletonList<T> : IList<T>
         throw new NotSupportedException("Remove not supported.");
     }
 
-    public int Count
-    {
-        get { return 1; }
-    }
+    public int Count => 1;
 
-    public bool IsReadOnly
-    {
-        get { return true; }
-    }
+    public bool IsReadOnly => true;
 
     public int IndexOf(T item)
     {
@@ -83,6 +77,6 @@ public class SingletonList<T> : IList<T>
 
             throw new IndexOutOfRangeException();
         }
-        set { throw new NotSupportedException("Set not supported."); }
+        set => throw new NotSupportedException("Set not supported.");
     }
-} 
+}

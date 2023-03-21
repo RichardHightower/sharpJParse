@@ -1,8 +1,11 @@
-namespace sharpJParse;
+using sharpJParse.source;
+using sharpJParse.support;
+using sharpJParse.token;
 
-public interface Node : CharSequence
+namespace sharpJParse.node;
+
+public interface INode : CharSequence
 {
-    
     NodeType Type();
 
     IList<Token> Tokens();
@@ -13,49 +16,58 @@ public interface Node : CharSequence
 
     bool IsScalar();
     bool IsCollection();
-    
-    ScalarNode AsScalar() {
-        return (ScalarNode) this;
+
+    IScalarNode AsScalar()
+    {
+        return (IScalarNode)this;
     }
 
-    CollectionNode AsCollection() {
-        return (CollectionNode) this;
+    CollectionNode AsCollection()
+    {
+        return (CollectionNode)this;
     }
 
-    int Length() {
-        Token token = RootElementToken();
+    public int Length()
+    {
+        var token = RootElementToken();
         return token.endIndex - token.startIndex;
     }
 
-    
-    char GetCharAt(int index) {
+
+    char GetCharAt(int index)
+    {
         return CharSource().GetChartAt(RootElementToken().startIndex + index);
     }
 
 
-    
-    CharSequence SubSequence(int start, int end) {
-        Token token = RootElementToken();
+    CharSequence SubSequence(int start, int end)
+    {
+        var token = RootElementToken();
         return CharSource().GetCharSequence(start + token.startIndex, end + token.startIndex);
     }
 
-    String OriginalString() {
+    string OriginalString()
+    {
         return CharSource().GetString(RootElementToken().startIndex, RootElementToken().endIndex);
     }
 
-    string ToJsonString() {
+    string ToJsonString()
+    {
         return OriginalString();
     }
 
-    CharSequence OriginalCharSequence() {
+    CharSequence OriginalCharSequence()
+    {
         return CharSource().GetCharSequence(RootElementToken().startIndex, RootElementToken().endIndex);
     }
 
-    CharSequence ToJsonCharSequence() {
+    CharSequence ToJsonCharSequence()
+    {
         return OriginalCharSequence();
     }
 
-    bool EqualsContent(string content) {
+    bool EqualsContent(string content)
+    {
         return Equals(content);
     }
 }

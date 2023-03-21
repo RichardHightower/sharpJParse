@@ -1,26 +1,21 @@
-namespace sharpJParse;
+using sharpJParse.node.support;
 
-public interface CollectionNode : Node
+namespace sharpJParse.node;
+
+public interface CollectionNode : INode
 {
-    
-     bool IsScalar() {
-        return false;
+    INode? GetNode(object key);
+
+
+    List<TokenSubList>? ChildrenTokens();
+
+    ArrayNode AsArray()
+    {
+        return (ArrayNode)this;
     }
 
-    bool IsCollection() {
-        return true;
+    ObjectNode AsObject()
+    {
+        return (ObjectNode)this;
     }
-
-    Node GetNode(object key);
-     
-
-    List<IList<Token>> ChildrenTokens();
-
-    // ArrayNode AsArray() {
-    //     return (ArrayNode ) this;
-    // }
-    //
-    // ObjectNode AsObject() {
-    //     return (ObjectNode) this;
-    // }
 }

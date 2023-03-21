@@ -1,10 +1,11 @@
 using System.Numerics;
+using sharpJParse.support;
 
-namespace sharpJParse;
+namespace sharpJParse.node;
 
-public interface ScalarNode : Node
+public interface IScalarNode : INode
 {
-    new bool  IsScalar()
+    new bool IsScalar()
     {
         return true;
     }

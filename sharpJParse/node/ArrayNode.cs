@@ -1,164 +1,43 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Numerics;
+using sharpJParse.node.support;
+using sharpJParse.source;
 using sharpJParse.support;
+using sharpJParse.token;
 
-namespace sharpJParse;
+namespace sharpJParse.node;
 
-
-public class ArrayNode : Collection<Node>, CollectionNode {
-
-    private  TokenSubList _tokens;
-    private  CharSource _source;
-    private  Token _rootToken;
-    private  bool _objectsKeysCanBeEncoded;
+public class ArrayNode : Collection<INode>, CollectionNode
+{
+    private List<TokenSubList>? _childrenTokens;
+    private INode[]? _elements;
     private int _hashCode;
-    private List<IList<Token>> _childrenTokens;
-    private Node[] _elements;
     private bool _hashCodeSet;
+    private readonly bool _objectsKeysCanBeEncoded;
+    private readonly Token _rootToken;
+    private readonly CharSource _source;
 
-    public ArrayNode( TokenSubList tokens,  CharSource source, bool objectsKeysCanBeEncoded) {
-        this._tokens = tokens;
-        this._rootToken = tokens[0];
-        this._source = source;
-        this._objectsKeysCanBeEncoded = objectsKeysCanBeEncoded;
+    private readonly TokenSubList _tokens;
+
+    public ArrayNode(TokenSubList tokens, CharSource source, bool objectsKeysCanBeEncoded)
+    {
+        _tokens = tokens;
+        _rootToken = tokens[0];
+        _source = source;
+        _objectsKeysCanBeEncoded = objectsKeysCanBeEncoded;
     }
 
 
-    public List<IList<Token>> ChildrenTokens() {
-        if (_childrenTokens == null) {
-            _childrenTokens = NodeUtils.GetChildrenTokens(_tokens);
-        }
-        return _childrenTokens;
+    public List<TokenSubList> ChildrenTokens()
+    {
+        if (_childrenTokens == null) _childrenTokens = NodeUtils.GetChildrenTokens(_tokens);
+        return _childrenTokens ?? throw new InvalidOperationException();
     }
 
-    Node[] Elements() {
-        if (_elements == null) {
-            _elements = new Node[ChildrenTokens().Count()];
-        }
-        return _elements;
-    }
-
-    public Node GetNode(Object key) {
-        return key is string ?
-                this.GetNodeAt(int.Parse ((string)key)) :
-                this.GetNodeAt((int) key);
-    }
-
-    public Node GetNodeAt(int index) {
-        Node element = Elements()[index];
-        if (element == null) {
-            IList<Token> tokens = ChildrenTokens()[index];
-            Elements()[index] = NodeUtils.CreateNode(tokens, _source, _objectsKeysCanBeEncoded);
-        }
-        return Elements()[index];
-    }
-    
-
-    public long GetLong(int index) {
-        return GetNumberNode(index).longValue();
-    }
-
-    public double GetDouble(int index) {
-        return GetNumberNode(index).doubleValue();
-    }
-
-    public double[] GetDoubleArray() {
-        int length = Length();
-        double[] array = new double[length];
-        for (int i = 0; i < length; i++) {
-             Token token = _tokens[i + 1];
-            array[i] = double.Parse(_source.GetString(token.startIndex, token.endIndex),  System.Globalization.CultureInfo.InvariantCulture) ;
-        }
-        return array;
-    }
-
-    public float[] GetFloatArray() {
-        int length = Length();
-        float[] array = new float[length];
-        for (int i = 0; i < length; i++) {
-             Token token = _tokens.Get(i + 1);
-             array[i] = float.Parse(_source.GetString(token.startIndex, token.endIndex),  System.Globalization.CultureInfo.InvariantCulture) ;
-
-        }
-        return array;
-    }
-
-
-
-    public BigInteger[] GetBigIntegerArray() {
-        int length = Length();
-        BigInteger[] array = new BigInteger[length];
-        for (int i = 0; i < length; i++) {
-             Token token = _tokens.Get(i + 1);
-             
-             array[i] = BigInteger.Parse(_source.GetString(token.startIndex, token.endIndex),  System.Globalization.CultureInfo.InvariantCulture) ;
-        }
-        return array;
-    }
-
-    public int[] GetIntArray() {
-        int length = Length();
-        int[] array = new int[length];
-        for (int i = 0; i < length; i++) {
-            Token token = _tokens.Get(i + 1);
-            array[i] = _source.GetInt(token.startIndex, token.endIndex);
-        }
-        return array;
-    }
-
-    public long[] GetLongArray() {
-        int length = Length();
-        long[] array = new long[length];
-        for (int i = 0; i < length; i++) {
-            Token token = _tokens.Get(i + 1);
-            array[i] = _source.GetLong(token.startIndex, token.endIndex);
-        }
-        return array;
-    }
-
-    public NullNode GetNullNode(int index) {
-        return (NullNode) GetNodeAt(index);
-    }
-
-    public int GetInt(int index) {
-        return GetNumberNode(index).IntValue();
-    }
-
-    public float GetFloat(int index) {
-        return GetNumberNode(index).floatValue();
-    }
-
-    public NumberNode GetNumberNode(int index) {
-        return (NumberNode) GetNodeAt(index);
-    }
-
-
-    public BigInteger GetBigInteger(int i) {
-        return GetNumberNode(i).bigIntegerValue();
-    }
-
-    public StringNode GetStringNode(int index) {
-        return (StringNode) GetNodeAt(index);
-    }
-
-    public string GetString(int index) {
-        return GetStringNode(index).ToString();
-    }
-
-    public ObjectNode GetObject(int index) {
-        return (ObjectNode) GetNodeAt(index);
-    }
-
-    public ArrayNode GetArray(int index) {
-        return (ArrayNode) GetNodeAt(index);
-    }
-
-    public BooleanNode GetBooleanNode(int index) {
-        return (BooleanNode) GetNodeAt(index);
-    }
-
-    public bool GetBoolean(int index) {
-        return GetBooleanNode(index).booleanValue();
+    public INode? GetNode(object key)
+    {
+        return key is string ? GetNodeAt(int.Parse((string)key)) : GetNodeAt((int)key);
     }
 
     public char CharAt(int index)
@@ -166,19 +45,23 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         throw new NotImplementedException();
     }
 
-    public int Length() {
+    public int Length()
+    {
         return Elements().Length;
     }
 
-    public NodeType Type() {
+    public NodeType Type()
+    {
         return NodeType.ARRAY;
     }
 
-    public IList<Token> Tokens() {
+    public IList<Token> Tokens()
+    {
         return _tokens;
     }
 
-    public Token RootElementToken() {
+    public Token RootElementToken()
+    {
         return _rootToken;
     }
 
@@ -192,54 +75,9 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         return true;
     }
 
-    public CharSource CharSource() {
+    public CharSource CharSource()
+    {
         return _source;
-    }
-
-
-    public Node Get(int index) {
-         Node node = GetNodeAt(index);
-        return node.Type() == NodeType.NULL ? null : node;
-    }
-
-
-    public bool Equals(Object o) {
-        if (this == o) return true;
-        if (!(o is ArrayNode)) return false;
-
-        ArrayNode other = (ArrayNode) o;
-
-        if (this._tokens.Size() != other._tokens.Size()) {
-            return false;
-        }
-
-        for (int index = 0; index < this._tokens.Size(); index++) {
-            Token thisValue = this._tokens[index];
-            Token otherValue = other._tokens[index];
-            if (otherValue == null && thisValue == null) continue;
-            String thisStr = thisValue.AsString(this._source);
-            String otherStr = otherValue.AsString(other._source);
-            if (!thisStr.Equals(otherStr)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    public int GetHashCode() {
-        if (_hashCodeSet) {
-            return _hashCode;
-        }
-        //TODO _hashCode = _tokens.Map(tok => tok.AsString(this._source)).ToList().GetHashCode();
-        _hashCode = 1;
-        _hashCodeSet = true;
-        return _hashCode;
-    }
-
-
-    public int Size() {
-        return ChildrenTokens().Count;
     }
     //
     // public string ToString() {
@@ -341,12 +179,211 @@ public class ArrayNode : Collection<Node>, CollectionNode {
         throw new NotImplementedException();
     }
 
-    public int GetLength()
+    public CharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }
 
-    public CharSequence SubSequence(int start, int end)
+    private INode[]? Elements()
+    {
+        if (_elements == null) _elements = new INode[ChildrenTokens().Count()];
+        return _elements;
+    }
+
+    public INode GetNodeAt(int index)
+    {
+        var element = Elements()[index];
+        if (element == null)
+        {
+            IList<Token> tokens = ChildrenTokens()[index];
+            Elements()[index] = NodeUtils.CreateNode(tokens, _source, _objectsKeysCanBeEncoded);
+        }
+
+        return Elements()[index];
+    }
+
+
+    public long GetLong(int index)
+    {
+        return GetNumberNode(index).LongValue();
+    }
+
+    public double GetDouble(int index)
+    {
+        return GetNumberNode(index).DoubleValue();
+    }
+
+    public double[] GetDoubleArray()
+    {
+        var length = Length();
+        var array = new double[length];
+        for (var i = 0; i < length; i++)
+        {
+            var token = _tokens[i + 1];
+            array[i] = double.Parse(_source.GetString(token.startIndex, token.endIndex), CultureInfo.InvariantCulture);
+        }
+
+        return array;
+    }
+
+    public float[] GetFloatArray()
+    {
+        var length = Length();
+        var array = new float[length];
+        for (var i = 0; i < length; i++)
+        {
+            var token = _tokens.Get(i + 1);
+            array[i] = float.Parse(_source.GetString(token.startIndex, token.endIndex), CultureInfo.InvariantCulture);
+        }
+
+        return array;
+    }
+
+
+    public BigInteger[] GetBigIntegerArray()
+    {
+        var length = Length();
+        var array = new BigInteger[length];
+        for (var i = 0; i < length; i++)
+        {
+            var token = _tokens.Get(i + 1);
+
+            array[i] = BigInteger.Parse(_source.GetString(token.startIndex, token.endIndex),
+                CultureInfo.InvariantCulture);
+        }
+
+        return array;
+    }
+
+    public int[] GetIntArray()
+    {
+        var length = Length();
+        var array = new int[length];
+        for (var i = 0; i < length; i++)
+        {
+            var token = _tokens.Get(i + 1);
+            array[i] = _source.GetInt(token.startIndex, token.endIndex);
+        }
+
+        return array;
+    }
+
+    public long[] GetLongArray()
+    {
+        var length = Length();
+        var array = new long[length];
+        for (var i = 0; i < length; i++)
+        {
+            var token = _tokens.Get(i + 1);
+            array[i] = _source.GetLong(token.startIndex, token.endIndex);
+        }
+
+        return array;
+    }
+
+    public NullNode GetNullNode(int index)
+    {
+        return (NullNode)GetNodeAt(index);
+    }
+
+    public int GetInt(int index)
+    {
+        return GetNumberNode(index).IntValue();
+    }
+
+    public float GetFloat(int index)
+    {
+        return GetNumberNode(index).FloatValue();
+    }
+
+    public NumberNode GetNumberNode(int index)
+    {
+        return (NumberNode)GetNodeAt(index);
+    }
+
+
+    public BigInteger GetBigInteger(int i)
+    {
+        return GetNumberNode(i).BigIntegerValue();
+    }
+
+    public StringNode GetStringNode(int index)
+    {
+        return (StringNode)GetNodeAt(index);
+    }
+
+    public string GetString(int index)
+    {
+        return GetStringNode(index).ToString();
+    }
+
+    public ObjectNode GetObject(int index)
+    {
+        return (ObjectNode)GetNodeAt(index);
+    }
+
+    public ArrayNode GetArray(int index)
+    {
+        return (ArrayNode)GetNodeAt(index);
+    }
+
+    public BooleanNode GetBooleanNode(int index)
+    {
+        return (BooleanNode)GetNodeAt(index);
+    }
+
+    public bool GetBoolean(int index)
+    {
+        return GetBooleanNode(index).BooleanValue();
+    }
+
+
+    public INode Get(int index)
+    {
+        var node = GetNodeAt(index);
+        return node.Type() == NodeType.NULL ? null : node;
+    }
+
+
+    public bool Equals(object o)
+    {
+        if (this == o) return true;
+        if (!(o is ArrayNode)) return false;
+
+        var other = (ArrayNode)o;
+
+        if (_tokens.Size() != other._tokens.Size()) return false;
+
+        for (var index = 0; index < _tokens.Size(); index++)
+        {
+            var thisValue = _tokens[index];
+            var otherValue = other._tokens[index];
+            if (otherValue == null && thisValue == null) continue;
+            var thisStr = thisValue.AsString(_source);
+            var otherStr = otherValue.AsString(other._source);
+            if (!thisStr.Equals(otherStr)) return false;
+        }
+
+        return true;
+    }
+
+
+    public int GetHashCode()
+    {
+        if (_hashCodeSet) return _hashCode;
+        //TODO _hashCode = _tokens.Map(tok => tok.AsString(this._source)).ToList().GetHashCode();
+        _hashCode = 1;
+        _hashCodeSet = true;
+        return _hashCode;
+    }
+
+
+    public int Size()
+    {
+        return ChildrenTokens().Count;
+    }
+
+    public int GetLength()
     {
         throw new NotImplementedException();
     }

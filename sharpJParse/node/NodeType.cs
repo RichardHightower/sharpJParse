@@ -1,5 +1,6 @@
-namespace sharpJParse;
+using sharpJParse.token;
 
+namespace sharpJParse.node;
 
 public enum NodeType : short
 {
@@ -9,20 +10,19 @@ public enum NodeType : short
     INT = TokenTypes.INT_TOKEN,
     FLOAT = TokenTypes.FLOAT_TOKEN,
     STRING = TokenTypes.STRING_TOKEN,
-    BOOLEAN= TokenTypes.BOOLEAN_TOKEN,
-    NULL= TokenTypes.NULL_TOKEN,
-    PATH_KEY= TokenTypes.PATH_KEY_TOKEN,
-    PATH_INDEX= TokenTypes.PATH_INDEX_TOKEN,
-    OTHER= -2
-
+    BOOLEAN = TokenTypes.BOOLEAN_TOKEN,
+    NULL = TokenTypes.NULL_TOKEN,
+    PATH_KEY = TokenTypes.PATH_KEY_TOKEN,
+    PATH_INDEX = TokenTypes.PATH_INDEX_TOKEN,
+    OTHER = -2
 }
 
 public class NodeTypeUtil
 {
-    
-    public static NodeType TokenTypeToElement( int tokenType) {
-
-        switch (tokenType) {
+    public static NodeType TokenTypeToElement(int tokenType)
+    {
+        switch (tokenType)
+        {
             case TokenTypes.OBJECT_TOKEN:
                 return NodeType.OBJECT;
             case TokenTypes.ARRAY_TOKEN:

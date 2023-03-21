@@ -1,4 +1,6 @@
-namespace sharpJParse;
+using sharpJParse.source;
+
+namespace sharpJParse.token;
 
 /*
  * Copyright 2013-2023 Richard M. Hightower
@@ -16,31 +18,37 @@ namespace sharpJParse;
  *
  */
 
-public class Token {
+public class Token
+{
+    public readonly int endIndex;
 
     public readonly int startIndex;
-    public readonly int endIndex;
     public readonly int type;
 
-    public Token(int startIndex, int endIndex, int type) {
+    public Token(int startIndex, int endIndex, int type)
+    {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         this.type = type;
     }
 
-    public string AsString(string buffer) {
+    public string AsString(string buffer)
+    {
         return buffer.Substring(startIndex, endIndex);
     }
 
-    public string AsString(CharSource source) {
+    public string AsString(CharSource source)
+    {
         return source.GetString(startIndex, endIndex);
     }
 
-    public int Length() {
+    public int Length()
+    {
         return endIndex - startIndex;
     }
 
-    public override string ToString() {
+    public override string ToString()
+    {
         return "Token{" +
                "startIndex=" + startIndex +
                ", endIndex=" + endIndex +

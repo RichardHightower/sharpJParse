@@ -1,8 +1,7 @@
-namespace sharpJParse;
+namespace sharpJParse.token;
 
 public class TokenTypes
 {
-    
     public const int OBJECT_TOKEN = 0;
     public const int ATTRIBUTE_KEY_TOKEN = 1;
     public const int ATTRIBUTE_VALUE_TOKEN = 2;
@@ -18,8 +17,10 @@ public class TokenTypes
     public const int PATH_KEY_TOKEN = 10;
     public const int PATH_INDEX_TOKEN = 11;
 
-    public static string GetTypeName( int tokenType) {
-        switch (tokenType) {
+    public static string GetTypeName(int tokenType)
+    {
+        switch (tokenType)
+        {
             case OBJECT_TOKEN:
                 return "Object";
             case ATTRIBUTE_KEY_TOKEN:

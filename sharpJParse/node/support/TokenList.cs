@@ -1,71 +1,28 @@
 using System.Collections;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
+using sharpJParse.token;
 
-namespace sharpJParse.support;
+namespace sharpJParse.node.support;
 
 public class TokenList : IList<Token>
 {
-    
-    private Token[] _tokens;
-    private int _index = 0;
     private bool _isReadOnly;
 
-    public TokenList() {
-        this._tokens = new Token[32];
-    }
+    private Token[] _tokens;
 
-    public TokenList(Token[] tokens) {
-
-        _index = tokens.Length;
-        this._tokens = tokens;
-    }
-
-    class Enumerator : IEnumerator<Token>
+    public TokenList()
     {
-        private Token[] tokens;
-        private int index = -1;
-        public Enumerator(     Token[] tokens)
-        {
-            this.tokens = tokens;
-
-        }
-        public bool MoveNext()
-        {
-            if (index + 1 < tokens.Length)
-            {
-                index++;
-                return true;
-            }
-           
-            return false;
-            
-        }
-
-        public void Reset()
-        {
-            index = -1;
-        }
-
-        public Token Current { get; }
-
-        public Token GetCurrent()
-        {
-            return tokens[index];
-        }
-
-        object IEnumerator.Current => GetCurrent();
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        _tokens = new Token[32];
     }
-    
+
+    public TokenList(Token[] tokens)
+    {
+        Count = tokens.Length;
+        _tokens = tokens;
+    }
+
     public IEnumerator<Token> GetEnumerator()
     {
         return new Enumerator(_tokens);
-
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -75,37 +32,31 @@ public class TokenList : IList<Token>
 
     public void Add(Token token)
     {
-
-        int length = _tokens.Length;
-        if (_index >= length) {
-            Token[] newTokens = new Token[length * 2];
+        var length = _tokens.Length;
+        if (Count >= length)
+        {
+            var newTokens = new Token[length * 2];
             Array.Copy(_tokens, 0, newTokens, 0, length);
             _tokens = newTokens;
         }
-        _tokens[_index] = token;
-        _index++;
 
-        
+        _tokens[Count] = token;
+        Count++;
     }
 
     public void Clear()
     {
-        this._index = 0;
+        Count = 0;
     }
 
     public bool Contains(Token item)
     {
         foreach (var token in _tokens)
         {
-            if (token == null)
-            {
-                return false;
-            }
-            if (item == token)
-            {
-                return true;
-            }
+            if (token == null) return false;
+            if (item == token) return true;
         }
+
         return false;
     }
 
@@ -119,34 +70,21 @@ public class TokenList : IList<Token>
         throw new NotImplementedException();
     }
 
-    public int Count
-    {
-        get
-        {
-            return _index;
-        }
-    }
+    public int Count { get; private set; }
 
     bool ICollection<Token>.IsReadOnly => false;
 
-    
+
     public int IndexOf(Token item)
     {
-
-        for (int i = 0; i < _tokens.Length; i++)
+        for (var i = 0; i < _tokens.Length; i++)
         {
+            var token = _tokens[i];
+            if (token is null) return -1;
 
-            Token token = _tokens[i];
-            if (token is null)
-            {
-                return -1;
-            }
-
-            if (token == item)
-            {
-                return i;
-            }
+            if (token == item) return i;
         }
+
         return -1;
     }
 
@@ -165,13 +103,55 @@ public class TokenList : IList<Token>
         get => _tokens[index];
         set => _tokens[index] = value;
     }
-    
-    public Token[] GetTokens() {
+
+    public Token[] GetTokens()
+    {
         return _tokens;
     }
-    
-    public  TokenSubList SubList( int from, int to) {
+
+    public TokenSubList SubList(int from, int to)
+    {
         return new TokenSubList(_tokens, from, to);
     }
 
+    private class Enumerator : IEnumerator<Token>
+    {
+        private int index = -1;
+        private readonly Token[] tokens;
+
+        public Enumerator(Token[] tokens)
+        {
+            this.tokens = tokens;
+        }
+
+        public bool MoveNext()
+        {
+            if (index + 1 < tokens.Length)
+            {
+                index++;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            index = -1;
+        }
+
+        public Token Current { get; }
+
+        object IEnumerator.Current => GetCurrent();
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Token GetCurrent()
+        {
+            return tokens[index];
+        }
+    }
 }

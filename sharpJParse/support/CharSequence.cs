@@ -1,4 +1,4 @@
-namespace sharpJParse;
+namespace sharpJParse.support;
 
 public interface CharSequence
 {
