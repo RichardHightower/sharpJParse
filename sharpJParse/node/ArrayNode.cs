@@ -8,7 +8,7 @@ using sharpJParse.token;
 
 namespace sharpJParse.node;
 
-public class ArrayNode : Collection<INode>, CollectionNode
+public class ArrayNode : Collection<INode>, ICollectionNode
 {
     private List<TokenSubList>? _childrenTokens;
     private INode[]? _elements;
@@ -179,7 +179,7 @@ public class ArrayNode : Collection<INode>, CollectionNode
         throw new NotImplementedException();
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }

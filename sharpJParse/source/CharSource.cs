@@ -71,7 +71,7 @@ public interface CharSource
 
     long GetLong(int startIndex, int endIndex);
 
-    CharSequence GetCharSequence(int startIndex, int endIndex);
+    ICharSequence GetCharSequence(int startIndex, int endIndex);
 
     char[] GetArray(int startIndex, int endIndex);
 
@@ -94,7 +94,7 @@ public interface CharSource
     int FindNullEnd();
 
 
-    bool MatchChars(int startIndex, int endIndex, CharSequence key);
+    bool MatchChars(int startIndex, int endIndex, ICharSequence key);
 
     bool IsInteger(int startIndex, int endIndex);
 

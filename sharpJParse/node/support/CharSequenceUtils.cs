@@ -2,7 +2,7 @@ namespace sharpJParse.support;
 
 public class CharSequenceUtils
 {
-    public static bool Equals(CharSequence cs1, CharSequence cs2)
+    public static bool Equals(ICharSequence cs1, ICharSequence cs2)
     {
         if (cs1.Length() != cs2.Length()) return false;
         var len = cs1.Length();
@@ -17,7 +17,7 @@ public class CharSequenceUtils
         return true;
     }
 
-    public static int GetHashCode(CharSequence cs)
+    public static int GetHashCode(ICharSequence cs)
     {
         var h = 0;
         for (var index = 0; index < cs.Length(); index++)

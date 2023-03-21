@@ -1,10 +1,10 @@
 namespace sharpJParse.support;
 
-public interface CharSequence
+public interface ICharSequence
 {
     string ToString();
     char CharAt(int index);
     int Length();
 
-    CharSequence SubSequence(int start, int end);
+    ICharSequence SubSequence(int start, int end);
 }

@@ -2,12 +2,12 @@ using sharpJParse.node.support;
 
 namespace sharpJParse.node;
 
-public interface CollectionNode : INode
+public interface ICollectionNode : INode
 {
     INode? GetNode(object key);
 
 
-    List<TokenSubList>? ChildrenTokens();
+    List<TokenSubList> ChildrenTokens();
 
     ArrayNode AsArray()
     {
@@ -18,4 +18,8 @@ public interface CollectionNode : INode
     {
         return (ObjectNode)this;
     }
+
+    bool INode.IsScalar() => false;
+
+    bool INode.IsCollection() => true;
 }

@@ -44,7 +44,7 @@ public interface IScalarNode : INode
         throw new InvalidOperationException();
     }
 
-    CharSequence CharSequenceValue()
+    ICharSequence CharSequenceValue()
     {
         return OriginalCharSequence();
     }

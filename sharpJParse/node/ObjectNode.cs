@@ -6,7 +6,7 @@ using sharpJParse.token;
 
 namespace sharpJParse.node;
 
-public class ObjectNode : CollectionNode
+public class ObjectNode : ICollectionNode
 {
     private readonly bool _objectsKeysCanBeEncoded;
     private readonly Token _rootToken;
@@ -18,7 +18,7 @@ public class ObjectNode : CollectionNode
     private Dictionary<object, INode> _elementMap = null!;
     private int _hashCode;
     private bool _hashCodeSet;
-    private List<CharSequence> _keys = null!;
+    private List<ICharSequence> _keys = null!;
 
 
     public ObjectNode(TokenSubList tokens, CharSource source, bool objectsKeysCanBeEncoded)
@@ -29,14 +29,14 @@ public class ObjectNode : CollectionNode
         _objectsKeysCanBeEncoded = objectsKeysCanBeEncoded;
     }
 
-    public List<TokenSubList>? ChildrenTokens()
+    public List<TokenSubList> ChildrenTokens()
     {
-        return _childrenTokens ?? (_childrenTokens = NodeUtils.GetChildrenTokens(_tokens));
+        return _childrenTokens ??= NodeUtils.GetChildrenTokens(_tokens);
     }
 
     public INode? GetNode(object key)
     {
-        return LookupElement((CharSequence)key);
+        return LookupElement((ICharSequence)key);
     }
 
     public char CharAt(int index)
@@ -46,10 +46,10 @@ public class ObjectNode : CollectionNode
 
     public int Length()
     {
-        return ChildrenTokens().Count() / 2;
+        return ChildrenTokens()!.Count() / 2;
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }
@@ -91,7 +91,7 @@ public class ObjectNode : CollectionNode
         return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
     }
 
-    public List<CharSequence> GetKeys()
+    public List<ICharSequence> GetKeys()
     {
         return Keys();
     }
@@ -192,72 +192,72 @@ public class ObjectNode : CollectionNode
     }
 
 
-    public NumberNode GetNumberNode(CharSequence key)
+    public NumberNode GetNumberNode(ICharSequence key)
     {
         return (NumberNode)GetNode(key);
     }
 
-    public NullNode GetNullNode(CharSequence key)
+    public NullNode GetNullNode(ICharSequence key)
     {
         return (NullNode)GetNode(key);
     }
 
-    public long GetLong(CharSequence key)
+    public long GetLong(ICharSequence key)
     {
         return ((NumberNode)GetNode(key)).LongValue();
     }
 
-    public double GetDouble(CharSequence key)
+    public double GetDouble(ICharSequence key)
     {
         return ((NumberNode)GetNode(key)).DoubleValue();
     }
 
-    public int GetInt(CharSequence key)
+    public int GetInt(ICharSequence key)
     {
         return ((NumberNode)GetNode(key)).IntValue();
     }
 
-    public float GetFloat(CharSequence key)
+    public float GetFloat(ICharSequence key)
     {
         return ((NumberNode)GetNode(key)).FloatValue();
     }
 
-    public decimal GetDecimal(CharSequence key)
+    public decimal GetDecimal(ICharSequence key)
     {
         return 1; // TODO fix //getNumberNode(key).bigDecimalValue();
     }
 
-    public BigInteger GetBigInteger(CharSequence key)
+    public BigInteger GetBigInteger(ICharSequence key)
     {
         return GetNumberNode(key).BigIntegerValue();
     }
 
-    public StringNode GetStringNode(CharSequence key)
+    public StringNode GetStringNode(ICharSequence key)
     {
         return (StringNode)GetNode(key);
     }
 
-    public string GetString(CharSequence key)
+    public string GetString(ICharSequence key)
     {
         return GetStringNode(key).ToString();
     }
 
-    public ObjectNode GetObjectNode(CharSequence key)
+    public ObjectNode GetObjectNode(ICharSequence key)
     {
         return (ObjectNode)GetNode(key);
     }
 
-    public ArrayNode GetArrayNode(CharSequence key)
+    public ArrayNode GetArrayNode(ICharSequence key)
     {
         return (ArrayNode)GetNode(key);
     }
 
-    public BooleanNode GetBooleanNode(CharSequence key)
+    public BooleanNode GetBooleanNode(ICharSequence key)
     {
         return (BooleanNode)GetNode(key);
     }
 
-    public bool GetBoolean(CharSequence key)
+    public bool GetBoolean(ICharSequence key)
     {
         return GetBooleanNode(key).BooleanValue();
     }
@@ -281,7 +281,7 @@ public class ObjectNode : CollectionNode
         return NodeUtils.CreateNodeForObject(_tokens, _source, _objectsKeysCanBeEncoded).Equals(key);
     }
 
-    private INode LookupElement(CharSequence key)
+    private INode LookupElement(ICharSequence key)
     {
         if (_elementMap == null) _elementMap = new Dictionary<object, INode>();
         var node = _elementMap[key];
@@ -306,7 +306,7 @@ public class ObjectNode : CollectionNode
         return node;
     }
 
-    private bool doesMatchKey(IList<Token> itemKey, CharSequence key)
+    private bool doesMatchKey(IList<Token> itemKey, ICharSequence key)
     {
         var keyToken = itemKey[1];
 
@@ -330,12 +330,12 @@ public class ObjectNode : CollectionNode
     }
 
 
-    private List<CharSequence> Keys()
+    private List<ICharSequence> Keys()
     {
         if (_keys == null)
         {
             var childrenTokens = ChildrenTokens();
-            _keys = new List<CharSequence>(childrenTokens.Count / 2);
+            _keys = new List<ICharSequence>(childrenTokens.Count / 2);
             for (var index = 0; index < childrenTokens.Count; index += 2)
             {
                 IList<Token> itemKey = childrenTokens[index];

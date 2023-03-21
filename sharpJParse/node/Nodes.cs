@@ -6,7 +6,7 @@ using sharpJParse.token;
 
 namespace sharpJParse.node;
 
-public class RootNode : CollectionNode
+public class RootNode : ICollectionNode
 {
     private readonly bool _objectsKeysCanBeEncoded;
 
@@ -37,7 +37,7 @@ public class RootNode : CollectionNode
         }
     }
 
-    List<TokenSubList>? CollectionNode.ChildrenTokens()
+    List<TokenSubList>? ICollectionNode.ChildrenTokens()
     {
         throw new NotImplementedException();
     }
@@ -101,7 +101,7 @@ public class RootNode : CollectionNode
         throw new NotImplementedException();
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }
@@ -127,12 +127,12 @@ public class RootNode : CollectionNode
 
     private List<TokenSubList>? DoGetChildrenTokens()
     {
-        return ((CollectionNode)GetNode()).ChildrenTokens();
+        return ((ICollectionNode)GetNode()).ChildrenTokens();
     }
 
     private INode DoGetNode(object key)
     {
-        return ((CollectionNode)GetNode()).GetNode(key);
+        return ((ICollectionNode)GetNode()).GetNode(key);
     }
 
     public INode GetNode()
@@ -246,7 +246,7 @@ public class RootNode : CollectionNode
     }
 }
 
-public class StringNode : IScalarNode, CharSequence
+public class StringNode : IScalarNode, ICharSequence
 {
     private readonly bool _encodeStringByDefault;
     private readonly int _end;
@@ -328,7 +328,7 @@ public class StringNode : IScalarNode, CharSequence
     }
 
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         return _source.GetCharSequence(start + _start, end + _start);
     }
@@ -339,7 +339,7 @@ public class StringNode : IScalarNode, CharSequence
         return _encodeStringByDefault ? _source.ToEncodedStringIfNeeded(_start, _end) : _source.GetString(_start, _end);
     }
 
-    public CharSequence CharSequence()
+    public ICharSequence CharSequence()
     {
         return _source.GetCharSequence(_start, _end);
     }
@@ -358,9 +358,9 @@ public class StringNode : IScalarNode, CharSequence
     public override bool Equals(object o)
     {
         if (this == o) return true;
-        if (o is CharSequence)
+        if (o is ICharSequence)
         {
-            var other = (CharSequence)o;
+            var other = (ICharSequence)o;
             return CharSequenceUtils.Equals(this, other);
         }
 
@@ -429,7 +429,7 @@ public class NullNode : IScalarNode
         return 4;
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }
@@ -530,7 +530,7 @@ public class BooleanNode : IScalarNode
         return _value ? 4 : 5;
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
     }
@@ -664,7 +664,7 @@ public class NumberNode : IScalarNode
         return _source.GetChartAt(_token.startIndex + index);
     }
 
-    public CharSequence SubSequence(int start, int end)
+    public ICharSequence SubSequence(int start, int end)
     {
         if (end > Length()) throw new IndexOutOfRangeException();
         return _source.GetCharSequence(start + _token.startIndex, end + _token.startIndex);

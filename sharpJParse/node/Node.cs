@@ -4,7 +4,7 @@ using sharpJParse.token;
 
 namespace sharpJParse.node;
 
-public interface INode : CharSequence
+public interface INode : ICharSequence
 {
     NodeType Type();
 
@@ -14,7 +14,7 @@ public interface INode : CharSequence
 
     CharSource CharSource();
 
-    bool IsScalar();
+    bool  IsScalar();
     bool IsCollection();
 
     IScalarNode AsScalar()
@@ -22,9 +22,9 @@ public interface INode : CharSequence
         return (IScalarNode)this;
     }
 
-    CollectionNode AsCollection()
+    ICollectionNode AsCollection()
     {
-        return (CollectionNode)this;
+        return (ICollectionNode)this;
     }
 
     public int Length()
@@ -40,7 +40,7 @@ public interface INode : CharSequence
     }
 
 
-    CharSequence SubSequence(int start, int end)
+    ICharSequence SubSequence(int start, int end)
     {
         var token = RootElementToken();
         return CharSource().GetCharSequence(start + token.startIndex, end + token.startIndex);
@@ -56,12 +56,12 @@ public interface INode : CharSequence
         return OriginalString();
     }
 
-    CharSequence OriginalCharSequence()
+    ICharSequence OriginalCharSequence()
     {
         return CharSource().GetCharSequence(RootElementToken().startIndex, RootElementToken().endIndex);
     }
 
-    CharSequence ToJsonCharSequence()
+    ICharSequence ToJsonCharSequence()
     {
         return OriginalCharSequence();
     }
