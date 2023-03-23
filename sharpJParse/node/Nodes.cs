@@ -12,11 +12,11 @@ public class RootNode : ICollectionNode
 
     private INode _root;
     private readonly Token _rootToken;
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
     private readonly TokenList _tokens;
 
-    public RootNode(TokenList tokens, CharSource source, bool objectsKeysCanBeEncoded)
+    public RootNode(TokenList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
         _tokens = tokens;
         _source = source;
@@ -70,7 +70,7 @@ public class RootNode : ICollectionNode
         return _rootToken;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }
@@ -251,14 +251,14 @@ public class StringNode : IScalarNode, ICharSequence
     private readonly bool _encodeStringByDefault;
     private readonly int _end;
     private readonly int _length;
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
     private readonly int _start;
 
     private readonly Token _token;
     private int _hashCode;
     private bool _hashCodeSet;
 
-    public StringNode(Token token, CharSource source, bool encodeStringByDefault)
+    public StringNode(Token token, ICharSource source, bool encodeStringByDefault)
     {
         _token = token;
         _source = source;
@@ -268,7 +268,7 @@ public class StringNode : IScalarNode, ICharSequence
         _length = token.endIndex - token.startIndex;
     }
 
-    public StringNode(Token token, CharSource source)
+    public StringNode(Token token, ICharSource source)
     {
         _token = token;
         _source = source;
@@ -294,7 +294,7 @@ public class StringNode : IScalarNode, ICharSequence
         return _token;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }
@@ -379,13 +379,13 @@ public class StringNode : IScalarNode, ICharSequence
 
 public class NullNode : IScalarNode
 {
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
 
     private readonly Token _token;
 
 
-    public NullNode(Token token, CharSource source)
+    public NullNode(Token token, ICharSource source)
     {
         _token = token;
         _source = source;
@@ -408,7 +408,7 @@ public class NullNode : IScalarNode
     }
 
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }
@@ -476,12 +476,12 @@ public class NullNode : IScalarNode
 
 public class BooleanNode : IScalarNode
 {
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
     private readonly Token _token;
     private readonly bool _value;
 
-    public BooleanNode(Token token, CharSource source)
+    public BooleanNode(Token token, ICharSource source)
     {
         _token = token;
         _source = source;
@@ -503,7 +503,7 @@ public class BooleanNode : IScalarNode
         return _token;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }
@@ -600,14 +600,14 @@ public class BooleanNode : IScalarNode
 public class NumberNode : IScalarNode
 {
     private readonly NodeType _elementType;
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
     private readonly Token _token;
     private int _hashCode;
     private bool _hashCodeSet;
 
 
-    public NumberNode(Token token, CharSource source, NodeType elementType)
+    public NumberNode(Token token, ICharSource source, NodeType elementType)
     {
         _token = token;
         _source = source;
@@ -680,7 +680,7 @@ public class NumberNode : IScalarNode
         return _token;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }

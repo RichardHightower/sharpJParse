@@ -47,7 +47,7 @@ public class NumberParseResult
     }
 }
 
-public interface CharSource
+public interface ICharSource
 {
     int Next();
 

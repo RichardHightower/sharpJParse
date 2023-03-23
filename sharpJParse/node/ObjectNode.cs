@@ -10,7 +10,7 @@ public class ObjectNode : ICollectionNode
 {
     private readonly bool _objectsKeysCanBeEncoded;
     private readonly Token _rootToken;
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
 
     private readonly TokenSubList _tokens;
@@ -21,7 +21,7 @@ public class ObjectNode : ICollectionNode
     private List<ICharSequence> _keys = null!;
 
 
-    public ObjectNode(TokenSubList tokens, CharSource source, bool objectsKeysCanBeEncoded)
+    public ObjectNode(TokenSubList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
         _tokens = tokens;
         _source = source;
@@ -70,7 +70,7 @@ public class ObjectNode : ICollectionNode
         return _rootToken;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }

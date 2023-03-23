@@ -12,7 +12,7 @@ public interface INode : ICharSequence
 
     Token RootElementToken();
 
-    CharSource CharSource();
+    ICharSource CharSource();
 
     bool  IsScalar();
     bool IsCollection();

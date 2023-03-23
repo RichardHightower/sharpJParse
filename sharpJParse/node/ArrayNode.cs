@@ -16,11 +16,11 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     private bool _hashCodeSet;
     private readonly bool _objectsKeysCanBeEncoded;
     private readonly Token _rootToken;
-    private readonly CharSource _source;
+    private readonly ICharSource _source;
 
     private readonly TokenSubList _tokens;
 
-    public ArrayNode(TokenSubList tokens, CharSource source, bool objectsKeysCanBeEncoded)
+    public ArrayNode(TokenSubList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
         _tokens = tokens;
         _rootToken = tokens[0];
@@ -75,7 +75,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         return true;
     }
 
-    public CharSource CharSource()
+    public ICharSource CharSource()
     {
         return _source;
     }

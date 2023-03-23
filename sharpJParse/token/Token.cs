@@ -37,7 +37,7 @@ public class Token
         return buffer.Substring(startIndex, endIndex);
     }
 
-    public string AsString(CharSource source)
+    public string AsString(ICharSource source)
     {
         return source.GetString(startIndex, endIndex);
     }
