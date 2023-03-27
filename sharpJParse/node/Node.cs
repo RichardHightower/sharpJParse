@@ -14,7 +14,7 @@ public interface INode : ICharSequence
 
     ICharSource CharSource();
 
-    bool  IsScalar();
+    bool IsScalar();
     bool IsCollection();
 
     IScalarNode AsScalar()

@@ -5,9 +5,9 @@ namespace sharpJParse.node.support;
 
 public class TokenSubList : IList<Token>
 {
+    private readonly int _endIndex;
     private readonly int _offset;
     private readonly Token[] _tokens;
-    private readonly int _endIndex;
 
 
     public TokenSubList(Token[] tokens, int offset, int endIndex)

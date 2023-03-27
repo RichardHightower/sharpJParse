@@ -116,8 +116,8 @@ public class TokenList : IList<Token>
 
     private class Enumerator : IEnumerator<Token>
     {
-        private int index = -1;
         private readonly Token[] tokens;
+        private int index = -1;
 
         public Enumerator(Token[] tokens)
         {

@@ -1,16 +1,7 @@
 namespace sharpJParse.parser;
 
-
-public abstract class ParseConstants {
-
-    public static readonly int NestLevel = 2_000;
-
-
-    /**
-     * End of text
-     */
-    public static readonly int Etx = 3;
-
+public abstract class ParseConstants
+{
     public const int TrueBooleanStart = 't';
     public const int NullStart = 'n';
     public const int FalseBooleanStart = 'f';
@@ -52,19 +43,6 @@ public abstract class ParseConstants {
     public const int Plus = '+';
     public const int ExponentMarker = 'e';
     public const int ExponentMarker2 = 'E';
-
-    public static readonly string  MinIntStr = "" +  int.MinValue;
-    public static readonly string  MaxIntStr = "" +  int.MaxValue;
-
-    public static readonly string MinLongStr = "" + long.MinValue;
-    public static readonly string MaxLongStr = "" + long.MaxValue;
-
-    public static readonly int MinIntStrLength = MinIntStr.Length;
-    public static readonly int MaxIntStrLength = MaxIntStr.Length;
-
-
-    public static readonly int MinLongStrLength = MinLongStr.Length;
-    public static readonly int MaxLongStrLength = MaxLongStr.Length;
 
 
     public const int Dot = '.';
@@ -121,4 +99,25 @@ public abstract class ParseConstants {
     public const int X_ = 'x';
     public const int Y_ = 'y';
     public const int Z_ = 'z';
+
+    public static readonly int NestLevel = 2_000;
+
+
+    /**
+     * End of text
+     */
+    public static readonly int Etx = 3;
+
+    public static readonly string MinIntStr = "" + int.MinValue;
+    public static readonly string MaxIntStr = "" + int.MaxValue;
+
+    public static readonly string MinLongStr = "" + long.MinValue;
+    public static readonly string MaxLongStr = "" + long.MaxValue;
+
+    public static readonly int MinIntStrLength = MinIntStr.Length;
+    public static readonly int MaxIntStrLength = MaxIntStr.Length;
+
+
+    public static readonly int MinLongStrLength = MinLongStr.Length;
+    public static readonly int MaxLongStrLength = MaxLongStr.Length;
 }

@@ -10,15 +10,15 @@ namespace sharpJParse.node;
 
 public class ArrayNode : Collection<INode>, ICollectionNode
 {
-    private List<TokenSubList>? _childrenTokens;
-    private INode[]? _elements;
-    private int _hashCode;
-    private bool _hashCodeSet;
     private readonly bool _objectsKeysCanBeEncoded;
     private readonly Token _rootToken;
     private readonly ICharSource _source;
 
     private readonly TokenSubList _tokens;
+    private List<TokenSubList>? _childrenTokens;
+    private INode[]? _elements;
+    private int _hashCode;
+    private bool _hashCodeSet;
 
     public ArrayNode(TokenSubList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {

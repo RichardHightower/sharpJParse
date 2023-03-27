@@ -4,6 +4,16 @@ namespace sharpJParse.node;
 
 public interface ICollectionNode : INode
 {
+    bool INode.IsScalar()
+    {
+        return false;
+    }
+
+    bool INode.IsCollection()
+    {
+        return true;
+    }
+
     INode? GetNode(object key);
 
 
@@ -18,8 +28,4 @@ public interface ICollectionNode : INode
     {
         return (ObjectNode)this;
     }
-
-    bool INode.IsScalar() => false;
-
-    bool INode.IsCollection() => true;
 }

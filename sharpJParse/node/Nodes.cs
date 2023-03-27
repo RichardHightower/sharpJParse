@@ -9,12 +9,12 @@ namespace sharpJParse.node;
 public class RootNode : ICollectionNode
 {
     private readonly bool _objectsKeysCanBeEncoded;
-
-    private INode _root;
     private readonly Token _rootToken;
     private readonly ICharSource _source;
 
     private readonly TokenList _tokens;
+
+    private INode _root;
 
     public RootNode(TokenList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
