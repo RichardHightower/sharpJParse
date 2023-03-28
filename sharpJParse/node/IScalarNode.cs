@@ -5,12 +5,12 @@ namespace sharpJParse.node;
 
 public interface IScalarNode : INode
 {
-    new bool IsScalar()
+    bool INode.IsScalar()
     {
         return true;
     }
 
-    new bool IsCollection()
+    bool INode.IsCollection()
     {
         return false;
     }

@@ -14,7 +14,7 @@ public class RootNode : ICollectionNode
 
     private readonly TokenList _tokens;
 
-    private INode _root;
+    private INode? _root;
 
     public RootNode(TokenList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
@@ -37,8 +37,9 @@ public class RootNode : ICollectionNode
         }
     }
 
-    List<TokenSubList>? ICollectionNode.ChildrenTokens()
+    List<TokenSubList> ICollectionNode.ChildrenTokens()
     {
+        //TODO
         throw new NotImplementedException();
     }
 
@@ -75,44 +76,8 @@ public class RootNode : ICollectionNode
         return _source;
     }
 
-    public bool IsScalar()
-    {
-        throw new NotImplementedException();
-    }
 
-    public bool IsCollection()
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public char GetCharAt(int index)
-    {
-        throw new NotImplementedException();
-    }
-
-    public char CharAt(int index)
-    {
-        throw new NotImplementedException();
-    }
-
-    public int Length()
-    {
-        throw new NotImplementedException();
-    }
-
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-    public ICharSequence SubSequence(int start, int end)
-    {
-        throw new NotImplementedException();
-    }
-
-    public NodeType GetType()
+    public NodeType RootType()
     {
         return NodeTypeUtil.TokenTypeToElement(_rootToken.type);
     }
@@ -146,7 +111,7 @@ public class RootNode : ICollectionNode
         if (_root == null)
             _root = NodeUtils.CreateNode(new TokenSubList(_tokens.GetTokens(), 0, _tokens.Count()), _source,
                 _objectsKeysCanBeEncoded);
-        return _root;
+        return _root ?? throw new InvalidOperationException();
     }
 
     //TODO add back when we add Path support
@@ -167,14 +132,14 @@ public class RootNode : ICollectionNode
         return (Dictionary<string, object>)(object)GetObjectNode();
     }
 
-    public StringNode getStringNode()
+    public StringNode GetStringNode()
     {
         return (StringNode)GetNode();
     }
 
     public string GetString()
     {
-        return getStringNode().ToString();
+        return GetStringNode().ToString();
     }
 
     public int GetInt()
@@ -232,7 +197,7 @@ public class RootNode : ICollectionNode
         return _tokens;
     }
 
-    public bool Equals(object o)
+    public override bool Equals(object? o)
     {
         var other = o as RootNode;
         if (other != null) return GetNode().Equals(other.GetNode());
@@ -240,19 +205,14 @@ public class RootNode : ICollectionNode
     }
 
 
-    public int GetHashCode()
+    public override int GetHashCode()
     {
         //return GetNode().GetHashCode(); TODO fix 
         return 1;
     }
-
-    public int GetLength()
-    {
-        throw new NotImplementedException();
-    }
 }
 
-public class StringNode : IScalarNode, ICharSequence
+public class StringNode : IScalarNode
 {
     private readonly bool _encodeStringByDefault;
     private readonly int _end;
@@ -327,13 +287,6 @@ public class StringNode : IScalarNode, ICharSequence
         return _length;
     }
 
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-
     public char CharAt(int index)
     {
         return _source.GetChartAt(_token.startIndex + index);
@@ -346,7 +299,7 @@ public class StringNode : IScalarNode, ICharSequence
     }
 
 
-    public string ToString()
+    public override string ToString()
     {
         return _encodeStringByDefault ? _source.ToEncodedStringIfNeeded(_start, _end) : _source.GetString(_start, _end);
     }
@@ -367,7 +320,7 @@ public class StringNode : IScalarNode, ICharSequence
     }
 
 
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (o is ICharSequence)
@@ -425,31 +378,10 @@ public class NullNode : IScalarNode
         return _source;
     }
 
-    public bool IsScalar()
-    {
-        return true;
-    }
-
-    public bool IsCollection()
-    {
-        return false;
-    }
-
 
     public int Length()
     {
         return 4;
-    }
-
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-    public ICharSequence SubSequence(int start, int end)
-    {
-        throw new NotImplementedException();
     }
 
     public char CharAt(int index)
@@ -470,7 +402,9 @@ public class NullNode : IScalarNode
 
     public object Value()
     {
+#pragma warning disable CS8603
         return null;
+#pragma warning restore CS8603
     }
 
     public override string ToString()
@@ -478,7 +412,7 @@ public class NullNode : IScalarNode
         return "null";
     }
 
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (o is null || GetType() != o.GetType()) return false;
@@ -548,17 +482,6 @@ public class BooleanNode : IScalarNode
         return _value ? 4 : 5;
     }
 
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-    public ICharSequence SubSequence(int start, int end)
-    {
-        throw new NotImplementedException();
-    }
-
 
     public object Value()
     {
@@ -606,7 +529,7 @@ public class BooleanNode : IScalarNode
     }
 
 
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (o == null || GetType() != o.GetType()) return false;
@@ -681,13 +604,6 @@ public class NumberNode : IScalarNode
         return _token.endIndex - _token.startIndex;
     }
 
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-
     public char CharAt(int index)
     {
         if (index > Length()) throw new IndexOutOfRangeException();
@@ -715,17 +631,6 @@ public class NumberNode : IScalarNode
         return _source;
     }
 
-    public bool IsScalar()
-    {
-        return true;
-    }
-
-    public bool IsCollection()
-    {
-        return false;
-    }
-
-
     public override string ToString()
     {
         return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
@@ -742,7 +647,7 @@ public class NumberNode : IScalarNode
         return 1; // TODO fix _source.getBigDecimal(_token.startIndex, _token.endIndex);
     }
 
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (o == null || GetType() != o.GetType()) return false;

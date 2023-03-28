@@ -2,6 +2,7 @@ using sharpJParse.support;
 
 namespace sharpJParse;
 
+#pragma warning disable NUnit2005
 public class CharArrayUtilsTests
 {
     [Test]
@@ -16,3 +17,4 @@ public class CharArrayUtilsTests
         Assert.AreEqual("hello \b \n \b \u1234 ", result);
     }
 }
+#pragma warning restore NUnit2005

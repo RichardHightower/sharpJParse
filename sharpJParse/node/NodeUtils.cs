@@ -33,7 +33,7 @@ public abstract class NodeUtils
         return childrenTokens;
     }
 
-    public static INode CreateNode(IList<Token> tokens, ICharSource source, bool objectsKeysCanBeEncoded)
+    public static INode? CreateNode(IList<Token> tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
         var nodeType = NodeTypeUtil.TokenTypeToElement(tokens[0].type);
         var token = tokens[0];

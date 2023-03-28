@@ -16,7 +16,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
 
     private readonly TokenSubList _tokens;
     private List<TokenSubList>? _childrenTokens;
-    private INode[]? _elements;
+    private INode?[]? _elements;
     private int _hashCode;
     private bool _hashCodeSet;
 
@@ -35,7 +35,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         return _childrenTokens ?? throw new InvalidOperationException();
     }
 
-    public INode? GetNode(object key)
+    public INode GetNode(object key)
     {
         return key is string ? GetNodeAt(int.Parse((string)key)) : GetNodeAt((int)key);
     }
@@ -48,12 +48,6 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     public int Length()
     {
         return Elements().Length;
-    }
-
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
     }
 
     public NodeType Type()
@@ -71,19 +65,14 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         return _rootToken;
     }
 
-    public bool IsScalar()
-    {
-        return false;
-    }
-
-    public bool IsCollection()
-    {
-        return true;
-    }
-
     public ICharSource CharSource()
     {
         return _source;
+    }
+
+    public ICharSequence SubSequence(int start, int end)
+    {
+        throw new NotImplementedException();
     }
     //
     // public string ToString() {
@@ -185,12 +174,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         throw new NotImplementedException();
     }
 
-    public ICharSequence SubSequence(int start, int end)
-    {
-        throw new NotImplementedException();
-    }
-
-    private INode[]? Elements()
+    private INode?[]? Elements()
     {
         if (_elements == null) _elements = new INode[ChildrenTokens().Count()];
         return _elements;
@@ -347,11 +331,13 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     public INode Get(int index)
     {
         var node = GetNodeAt(index);
+#pragma warning disable CS8603
         return node.Type() == NodeType.NULL ? null : node;
+#pragma warning restore CS8603
     }
 
 
-    public bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (!(o is ArrayNode)) return false;
@@ -364,7 +350,6 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         {
             var thisValue = _tokens[index];
             var otherValue = other._tokens[index];
-            if (otherValue == null && thisValue == null) continue;
             var thisStr = thisValue.AsString(_source);
             var otherStr = otherValue.AsString(other._source);
             if (!thisStr.Equals(otherStr)) return false;
@@ -374,7 +359,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     }
 
 
-    public int GetHashCode()
+    public override int GetHashCode()
     {
         if (_hashCodeSet) return _hashCode;
         //TODO _hashCode = _tokens.Map(tok => tok.AsString(this._source)).ToList().GetHashCode();

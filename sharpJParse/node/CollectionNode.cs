@@ -14,7 +14,7 @@ public interface ICollectionNode : INode
         return true;
     }
 
-    INode? GetNode(object key);
+    INode GetNode(object key);
 
 
     List<TokenSubList> ChildrenTokens();

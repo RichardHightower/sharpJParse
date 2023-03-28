@@ -3,6 +3,7 @@ using sharpJParse.node.support;
 using sharpJParse.source;
 using sharpJParse.support;
 using sharpJParse.token;
+#pragma warning disable CS8619
 
 namespace sharpJParse.node;
 
@@ -15,7 +16,7 @@ public class ObjectNode : ICollectionNode
 
     private readonly TokenSubList _tokens;
     private List<TokenSubList>? _childrenTokens;
-    private Dictionary<object, INode> _elementMap = null!;
+    private Dictionary<object, INode?>? _elementMap = null!;
     private int _hashCode;
     private bool _hashCodeSet;
     private List<ICharSequence> _keys = null!;
@@ -34,7 +35,7 @@ public class ObjectNode : ICollectionNode
         return _childrenTokens ??= NodeUtils.GetChildrenTokens(_tokens);
     }
 
-    public INode? GetNode(object key)
+    public INode GetNode(object key)
     {
         return LookupElement((ICharSequence)key);
     }
@@ -47,17 +48,6 @@ public class ObjectNode : ICollectionNode
     public int Length()
     {
         return ChildrenTokens()!.Count() / 2;
-    }
-
-    public char this[int index]
-    {
-        get => throw new NotImplementedException();
-        set => throw new NotImplementedException();
-    }
-
-    public ICharSequence SubSequence(int start, int end)
-    {
-        throw new NotImplementedException();
     }
 
     public NodeType Type()
@@ -159,7 +149,7 @@ public class ObjectNode : ICollectionNode
     //
     // }
 
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
         if (this == o) return true;
         if (!(o is ObjectNode)) return false;
@@ -287,10 +277,11 @@ public class ObjectNode : ICollectionNode
         return NodeUtils.CreateNodeForObject(_tokens, _source, _objectsKeysCanBeEncoded).Equals(key);
     }
 
-    private INode LookupElement(ICharSequence key)
+    private INode? LookupElement(ICharSequence key)
     {
         if (_elementMap == null) _elementMap = new Dictionary<object, INode>();
         var node = _elementMap[key];
+
 
         if (node == null)
         {
@@ -299,8 +290,7 @@ public class ObjectNode : ICollectionNode
             {
                 IList<Token> itemKey = childrenTokens[index];
 
-
-                if (doesMatchKey(itemKey, key))
+                if (DoesMatchKey(itemKey, key))
                 {
                     node = NodeUtils.CreateNodeForObject(childrenTokens[index + 1], _source, _objectsKeysCanBeEncoded);
                     _elementMap[key] = node;
@@ -312,7 +302,7 @@ public class ObjectNode : ICollectionNode
         return node;
     }
 
-    private bool doesMatchKey(IList<Token> itemKey, ICharSequence key)
+    private bool DoesMatchKey(IList<Token> itemKey, ICharSequence key)
     {
         var keyToken = itemKey[1];
 

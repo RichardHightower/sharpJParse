@@ -18,7 +18,7 @@ namespace sharpJParse.token;
  *
  */
 
-public class Token
+public readonly struct Token
 {
     public readonly int endIndex;
 

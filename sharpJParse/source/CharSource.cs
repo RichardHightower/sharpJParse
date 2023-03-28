@@ -39,7 +39,7 @@ public class NumberParseResult
     }
 
 
-    public string ToString()
+    public override string ToString()
     {
         return "NumberParseResult[" +
                "endIndex=" + _endIndex + ", " +

@@ -6,6 +6,30 @@ namespace sharpJParse.node;
 
 public interface INode : ICharSequence
 {
+    int ICharSequence.Length()
+    {
+        var token = RootElementToken();
+        return token.endIndex - token.startIndex;
+    }
+
+
+    char ICharSequence.CharAt(int index)
+    {
+        return CharSource().GetChartAt(RootElementToken().startIndex + index);
+    }
+
+
+    ICharSequence ICharSequence.SubSequence(int start, int end)
+    {
+        var token = RootElementToken();
+        return CharSource().GetCharSequence(start + token.startIndex, end + token.startIndex);
+    }
+
+    string? ICharSequence.ToString()
+    {
+        return OriginalString();
+    }
+
     NodeType Type();
 
     IList<Token> Tokens();
@@ -25,25 +49,6 @@ public interface INode : ICharSequence
     ICollectionNode AsCollection()
     {
         return (ICollectionNode)this;
-    }
-
-    public int Length()
-    {
-        var token = RootElementToken();
-        return token.endIndex - token.startIndex;
-    }
-
-
-    char GetCharAt(int index)
-    {
-        return CharSource().GetChartAt(RootElementToken().startIndex + index);
-    }
-
-
-    ICharSequence SubSequence(int start, int end)
-    {
-        var token = RootElementToken();
-        return CharSource().GetCharSequence(start + token.startIndex, end + token.startIndex);
     }
 
     string OriginalString()

@@ -5,7 +5,6 @@ namespace sharpJParse.node.support;
 
 public class TokenList : IList<Token>
 {
-    private bool _isReadOnly;
 
     private Token[] _tokens;
 
@@ -51,13 +50,7 @@ public class TokenList : IList<Token>
 
     public bool Contains(Token item)
     {
-        foreach (var token in _tokens)
-        {
-            if (token == null) return false;
-            if (item == token) return true;
-        }
-
-        return false;
+        throw new NotImplementedException();
     }
 
     public void CopyTo(Token[] array, int arrayIndex)
@@ -77,15 +70,7 @@ public class TokenList : IList<Token>
 
     public int IndexOf(Token item)
     {
-        for (var i = 0; i < _tokens.Length; i++)
-        {
-            var token = _tokens[i];
-            if (token is null) return -1;
-
-            if (token == item) return i;
-        }
-
-        return -1;
+        throw new NotImplementedException();
     }
 
     public void Insert(int index, Token item)

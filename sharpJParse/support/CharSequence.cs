@@ -2,9 +2,9 @@ namespace sharpJParse.support;
 
 public interface ICharSequence
 {
-    char this[int index] { get; set; }
+    char this[int index] => CharAt(index);
 
-    string ToString();
+    string? ToString();
     char CharAt(int index);
     int Length();
 

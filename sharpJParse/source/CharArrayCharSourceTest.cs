@@ -116,7 +116,6 @@ public class CharArrayCharSourceTest
         }
         catch (Exception ex)
         {
-
             Console.WriteLine("" + ex);
         }
     }
@@ -268,7 +267,7 @@ public class CharArrayCharSourceTest
         }
         catch (Exception ex)
         {
-            Console.WriteLine(""  + ex);
+            Console.WriteLine("" + ex);
         }
     }
 
