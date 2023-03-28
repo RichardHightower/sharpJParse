@@ -116,97 +116,92 @@ public class CharArrayCharSourceTest
         }
         catch (Exception ex)
         {
-            Assert.IsTrue(true);
+
+            Console.WriteLine("" + ex);
         }
     }
 
 
     //Left off here TODO 
-    
-    [Test]
-    public void findEndOfNumberFloatInArray() {
 
+    [Test]
+    public void FindEndOfNumberFloatInArray()
+    {
         //...................01234567890123456789
-        String json = "0.2]";
+        string json = "0.2]";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
-        NumberParseResult result  = source.FindEndOfNumber();
+        NumberParseResult result = source.FindEndOfNumber();
         Assert.AreEqual(3, result.EndIndex());
         Assert.True(result.WasFloat());
-
     }
 
     [Test]
-    public void FindEndOfNumberFloatExponentInArray2() {
-
+    public void FindEndOfNumberFloatExponentInArray2()
+    {
         //...................01234567890123456789
-        String json = "0.2e12] ";
+        string json = "0.2e12] ";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
-        NumberParseResult result  = source.FindEndOfNumber();
+        NumberParseResult result = source.FindEndOfNumber();
         Assert.AreEqual(6, result.EndIndex());
         Assert.True(result.WasFloat());
-
     }
 
     [Test]
-    public void findTrueEnd() {
-
+    public void FindTrueEnd()
+    {
         //...................01234567890123456789
-        String json = "true";
+        string json = "true";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
         Assert.AreEqual(4, source.FindTrueEnd());
-
     }
 
     [Test]
-    public void findFalseEnd() {
-
+    public void FindFalseEnd()
+    {
         //...................01234567890123456789
-        String json = "false";
+        string json = "false";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
         Assert.AreEqual(5, source.FindFalseEnd());
-
     }
 
     [Test]
-    public void findNullEnd() {
-
+    public void FindNullEnd()
+    {
         //...................01234567890123456789
         const string json = "null";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
         Assert.AreEqual(4, source.FindNullEnd());
-
     }
 
 
     [Test]
-    public void MatchChars() {
-
+    public void MatchChars()
+    {
         //...................01234567890123456789
         const string json = "abcd";
         ICharSource source =
-                Sources.StringSource(Json.NiceJson(json));
+            Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
         Assert.True(source.MatchChars(1, 3, new string("bc")));
         Assert.False(source.MatchChars(1, 3, new string("ab")));
-
     }
-    
+
     [Test]
     public void ParseDoubleSimple()
     {
@@ -268,11 +263,12 @@ public class CharArrayCharSourceTest
         source.Next();
         try
         {
-            NumberParseResult result = source.FindEndOfNumber();
+            source.FindEndOfNumber();
             Assert.True(false);
         }
         catch (Exception ex)
         {
+            Console.WriteLine(""  + ex);
         }
     }
 

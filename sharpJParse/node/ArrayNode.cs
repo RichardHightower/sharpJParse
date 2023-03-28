@@ -393,6 +393,4 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     {
         throw new NotImplementedException();
     }
-    
-    
 }

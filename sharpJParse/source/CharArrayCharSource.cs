@@ -265,424 +265,421 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     public int FindFalseEnd()
     {
-        int index = _index;
-        if (_data[++index] == 'a' && _data[++index] == 'l' && _data[++index] == 's' && _data[++index] == 'e') {
+        var index = _index;
+        if (_data[++index] == 'a' && _data[++index] == 'l' && _data[++index] == 's' && _data[++index] == 'e')
+        {
             ++index;
             _index = index;
             return index;
-        } else {
-            throw new UnexpectedCharacterException("Parsing JSON False Boolean", "Unexpected character", this);
-
         }
+
+        throw new UnexpectedCharacterException("Parsing JSON False Boolean", "Unexpected character", this);
     }
 
     public int FindTrueEnd()
     {
-        int index = _index;
-        if (_data[++index] == 'r' && _data[++index] == 'u' && _data[++index] == 'e') {
-             ++index;
-             _index = index;
-             return index;
-        } else {
-
-            throw new UnexpectedCharacterException("Parsing JSON True Boolean", "Unexpected character", this);
+        var index = _index;
+        if (_data[++index] == 'r' && _data[++index] == 'u' && _data[++index] == 'e')
+        {
+            ++index;
+            _index = index;
+            return index;
         }
-        
+
+        throw new UnexpectedCharacterException("Parsing JSON True Boolean", "Unexpected character", this);
     }
 
     public int FindNullEnd()
     {
-        int index = _index;
-        if (_data[++index] == 'u' && _data[++index] == 'l' && _data[++index] == 'l') {
+        var index = _index;
+        if (_data[++index] == 'u' && _data[++index] == 'l' && _data[++index] == 'l')
+        {
             _index = ++index;
             return index;
-        } else {
-            throw new UnexpectedCharacterException("Parsing JSON Null", "Unexpected character", this);
         }
+
+        throw new UnexpectedCharacterException("Parsing JSON Null", "Unexpected character", this);
     }
 
     public bool MatchChars(int startIndex, int endIndex, string key)
     {
-        int length = endIndex - startIndex;
-        int idx = startIndex;
-        char[] data = _data;
+        var length = endIndex - startIndex;
+        var idx = startIndex;
+        var data = _data;
 
-        switch (length) {
+        switch (length)
+        {
             case 1:
                 return key[0] == data[idx];
             case 2:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1];
+                       key[1] == data[idx + 1];
             case 3:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2];
             case 4:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[3] == data[idx + 3];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[3] == data[idx + 3];
 
             case 5:
                 return key[1] == data[idx + 1] &&
-                        key[3] == data[idx + 3] &&
-                        key[0] == data[idx] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[3] == data[idx + 3] &&
+                       key[0] == data[idx] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 6:
                 return key[0] == data[idx] &&
-                        key[5] == data[idx + 5] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[5] == data[idx + 5] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 7:
                 return key[0] == data[idx] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 8:
                 return key[0] == data[idx] &&
-                        key[7] == data[idx + 7] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[4] == data[idx + 4];
+                       key[7] == data[idx + 7] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[4] == data[idx + 4];
 
 
             case 9:
                 return key[0] == data[idx] &&
-                        key[8] == data[idx + 8] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1];
+                       key[8] == data[idx + 8] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1];
 
             case 10:
                 return key[0] == data[idx] &&
-                        key[9] == data[idx + 9] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[9] == data[idx + 9] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 11:
                 return key[0] == data[idx] &&
-                        key[10] == data[idx + 10] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[10] == data[idx + 10] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 12:
                 return key[0] == data[idx] &&
-                        key[11] == data[idx + 11] &&
-                        key[3]== data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[10] == data[idx + 10] &&
-                        key[1]== data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[11] == data[idx + 11] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[10] == data[idx + 10] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             default:
-                int start = 0;
-                int end = length - 1;
-                int middle = length / 2;
+                var start = 0;
+                var end = length - 1;
+                var middle = length / 2;
 
                 if (key[start] == data[idx] &&
-                        key[end] == data[idx + end] &&
-                        key[middle] == data[idx + middle]) {
-                    for (int i = 1; i < length; i++) {
-                        if (key[i] != data[idx + i]) {
+                    key[end] == data[idx + end] &&
+                    key[middle] == data[idx + middle])
+                {
+                    for (var i = 1; i < length; i++)
+                        if (key[i] != data[idx + i])
                             return false;
-                        }
-                    }
                     return true;
-                } else {
-                    return false;
                 }
-        }
 
+                return false;
+        }
     }
 
     public bool MatchChars(int startIndex, int endIndex, char[] key)
     {
+        var length = endIndex - startIndex;
+        var idx = startIndex;
+        var data = _data;
 
-        int length = endIndex - startIndex;
-        int idx = startIndex;
-        char[] data = _data;
-
-        switch (length) {
+        switch (length)
+        {
             case 1:
                 return key[0] == data[idx];
             case 2:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1];
+                       key[1] == data[idx + 1];
             case 3:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2];
             case 4:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[3] == data[idx + 3];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[3] == data[idx + 3];
 
             case 5:
                 return key[1] == data[idx + 1] &&
-                        key[3] == data[idx + 3] &&
-                        key[0] == data[idx] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[3] == data[idx + 3] &&
+                       key[0] == data[idx] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 6:
                 return key[0] == data[idx] &&
-                        key[5] == data[idx + 5] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[5] == data[idx + 5] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 7:
                 return key[0] == data[idx] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 8:
                 return key[0] == data[idx] &&
-                        key[7] == data[idx + 7] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[4] == data[idx + 4];
+                       key[7] == data[idx + 7] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[4] == data[idx + 4];
 
 
             case 9:
                 return key[0] == data[idx] &&
-                        key[8] == data[idx + 8] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1];
+                       key[8] == data[idx + 8] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1];
 
             case 10:
                 return key[0] == data[idx] &&
-                        key[9] == data[idx + 9] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[9] == data[idx + 9] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 11:
                 return key[0] == data[idx] &&
-                        key[10] == data[idx + 10] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[10] == data[idx + 10] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 12:
                 return key[0] == data[idx] &&
-                        key[11] == data[idx + 11] &&
-                        key[3]== data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[10] == data[idx + 10] &&
-                        key[1]== data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[11] == data[idx + 11] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[10] == data[idx + 10] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             default:
-                int start = 0;
-                int end = length - 1;
-                int middle = length / 2;
+                var start = 0;
+                var end = length - 1;
+                var middle = length / 2;
 
                 if (key[start] == data[idx] &&
-                        key[end] == data[idx + end] &&
-                        key[middle] == data[idx + middle]) {
-                    for (int i = 1; i < length; i++) {
-                        if (key[i] != data[idx + i]) {
+                    key[end] == data[idx + end] &&
+                    key[middle] == data[idx + middle])
+                {
+                    for (var i = 1; i < length; i++)
+                        if (key[i] != data[idx + i])
                             return false;
-                        }
-                    }
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
         }
     }
-    
-    
+
+
     public bool MatchChars(int startIndex, int endIndex, ICharSequence key)
     {
+        var length = endIndex - startIndex;
+        var idx = startIndex;
+        var data = _data;
 
-        int length = endIndex - startIndex;
-        int idx = startIndex;
-        char[] data = _data;
-
-        switch (length) {
+        switch (length)
+        {
             case 1:
                 return key[0] == data[idx];
             case 2:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1];
+                       key[1] == data[idx + 1];
             case 3:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2];
             case 4:
                 return key[0] == data[idx] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[3] == data[idx + 3];
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[3] == data[idx + 3];
 
             case 5:
                 return key[1] == data[idx + 1] &&
-                        key[3] == data[idx + 3] &&
-                        key[0] == data[idx] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[3] == data[idx + 3] &&
+                       key[0] == data[idx] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 6:
                 return key[0] == data[idx] &&
-                        key[5] == data[idx + 5] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[5] == data[idx + 5] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 7:
                 return key[0] == data[idx] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4];
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4];
 
             case 8:
                 return key[0] == data[idx] &&
-                        key[7] == data[idx + 7] &&
-                        key[3] == data[idx + 3] &&
-                        key[1] == data[idx + 1] &&
-                        key[5] == data[idx + 5] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[4] == data[idx + 4];
+                       key[7] == data[idx + 7] &&
+                       key[3] == data[idx + 3] &&
+                       key[1] == data[idx + 1] &&
+                       key[5] == data[idx + 5] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[4] == data[idx + 4];
 
 
             case 9:
                 return key[0] == data[idx] &&
-                        key[8] == data[idx + 8] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1];
+                       key[8] == data[idx + 8] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1];
 
             case 10:
                 return key[0] == data[idx] &&
-                        key[9] == data[idx + 9] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[9] == data[idx + 9] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 11:
                 return key[0] == data[idx] &&
-                        key[10] == data[idx + 10] &&
-                        key[6] == data[idx + 6] &&
-                        key[3] == data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[1] == data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[10] == data[idx + 10] &&
+                       key[6] == data[idx + 6] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             case 12:
                 return key[0] == data[idx] &&
-                        key[11] == data[idx + 11] &&
-                        key[3]== data[idx + 3] &&
-                        key[7] == data[idx + 7] &&
-                        key[2] == data[idx + 2] &&
-                        key[6] == data[idx + 6] &&
-                        key[9] == data[idx + 9] &&
-                        key[4] == data[idx + 4] &&
-                        key[5] == data[idx + 5] &&
-                        key[10] == data[idx + 10] &&
-                        key[1]== data[idx + 1] &&
-                        key[8] == data[idx + 8];
+                       key[11] == data[idx + 11] &&
+                       key[3] == data[idx + 3] &&
+                       key[7] == data[idx + 7] &&
+                       key[2] == data[idx + 2] &&
+                       key[6] == data[idx + 6] &&
+                       key[9] == data[idx + 9] &&
+                       key[4] == data[idx + 4] &&
+                       key[5] == data[idx + 5] &&
+                       key[10] == data[idx + 10] &&
+                       key[1] == data[idx + 1] &&
+                       key[8] == data[idx + 8];
 
             default:
-                int start = 0;
-                int end = length - 1;
-                int middle = length / 2;
+                var start = 0;
+                var end = length - 1;
+                var middle = length / 2;
 
                 if (key[start] == data[idx] &&
-                        key[end] == data[idx + end] &&
-                        key[middle] == data[idx + middle]) {
-                    for (int i = 1; i < length; i++) {
-                        if (key[i] != data[idx + i]) {
+                    key[end] == data[idx + end] &&
+                    key[middle] == data[idx + middle])
+                {
+                    for (var i = 1; i < length; i++)
+                        if (key[i] != data[idx + i])
                             return false;
-                        }
-                    }
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
         }
     }
 
@@ -902,27 +899,29 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     private NumberParseResult ParseFloatWithExponent()
     {
-        int ch =   Next();
-        if (!IsNumberOrSign(ch)) {
-            throw new UnexpectedCharacterException("Parsing exponent part of float", "After exponent expecting number or sign but got", this, (int) ch, _index);
+        var ch = Next();
+        if (!IsNumberOrSign(ch))
+            throw new UnexpectedCharacterException("Parsing exponent part of float",
+                "After exponent expecting number or sign but got", this, ch, _index);
+
+        if (IsSign(ch))
+        {
+            ch = Next();
+            if (!IsNumber(ch))
+                throw new UnexpectedCharacterException("Parsing exponent part of float after sign",
+                    "After sign expecting number but got", this, ch, _index);
         }
 
-        if (IsSign(ch)) {
-            ch =  Next();
-            if (!IsNumber(ch)) {
-                throw new UnexpectedCharacterException("Parsing exponent part of float after sign", "After sign expecting number but got", this, (int) ch, _index);
-            }
-        }
+        var i = _index + 1;
+        var data = _data;
+        var length = _length;
 
-        int i = _index + 1;
-        char[] data = _data;
-        int length = _length;
-
-        for (; i < length; i++) {
+        for (; i < length; i++)
+        {
             ch = data[i];
 
-            switch (ch) {
-
+            switch (ch)
+            {
                 case NewLineWs:
                 case CarriageReturnWs:
                 case TabWs:
@@ -947,29 +946,31 @@ public class CharArrayCharSource : ParseConstants, ICharSource
                     break;
 
                 default:
-                    throw new UnexpectedCharacterException("Parsing Float with exponent", "Unable to find closing for Number", this,  ch, i);
-
+                    throw new UnexpectedCharacterException("Parsing Float with exponent",
+                        "Unable to find closing for Number", this, ch, i);
             }
         }
+
         _index = i;
         return new NumberParseResult(i, true);
     }
 
     private bool IsSign(int ch)
     {
-        switch (ch) {
+        switch (ch)
+        {
             case Minus:
             case Plus:
                 return true;
             default:
                 return false;
         }
-
     }
 
     private bool IsNumberOrSign(int ch)
     {
-        switch (ch) {
+        switch (ch)
+        {
             case Num0:
             case Num1:
             case Num2:
