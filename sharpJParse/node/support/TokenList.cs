@@ -5,7 +5,6 @@ namespace sharpJParse.node.support;
 
 public class TokenList : IList<Token>
 {
-
     private Token[] _tokens;
 
     public TokenList()

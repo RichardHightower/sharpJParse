@@ -3,6 +3,7 @@ using sharpJParse.node.support;
 using sharpJParse.source;
 using sharpJParse.support;
 using sharpJParse.token;
+
 #pragma warning disable CS8619
 
 namespace sharpJParse.node;
@@ -16,7 +17,7 @@ public class ObjectNode : ICollectionNode
 
     private readonly TokenSubList _tokens;
     private List<TokenSubList>? _childrenTokens;
-    private Dictionary<object, INode?>? _elementMap = null!;
+    private Dictionary<object, INode?>? _elementMap;
     private int _hashCode;
     private bool _hashCodeSet;
     private List<ICharSequence> _keys = null!;
