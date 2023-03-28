@@ -101,6 +101,12 @@ public class RootNode : ICollectionNode
         throw new NotImplementedException();
     }
 
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
     public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
@@ -321,6 +327,12 @@ public class StringNode : IScalarNode, ICharSequence
         return _length;
     }
 
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
 
     public char CharAt(int index)
     {
@@ -429,6 +441,12 @@ public class NullNode : IScalarNode
         return 4;
     }
 
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
     public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
@@ -528,6 +546,12 @@ public class BooleanNode : IScalarNode
     public int Length()
     {
         return _value ? 4 : 5;
+    }
+
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
     }
 
     public ICharSequence SubSequence(int start, int end)
@@ -655,6 +679,12 @@ public class NumberNode : IScalarNode
     public int Length()
     {
         return _token.endIndex - _token.startIndex;
+    }
+
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
     }
 
 

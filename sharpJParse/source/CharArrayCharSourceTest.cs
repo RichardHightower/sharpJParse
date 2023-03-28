@@ -124,6 +124,90 @@ public class CharArrayCharSourceTest
     //Left off here TODO 
     
     [Test]
+    public void findEndOfNumberFloatInArray() {
+
+        //...................01234567890123456789
+        String json = "0.2]";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(3, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFloatExponentInArray2() {
+
+        //...................01234567890123456789
+        String json = "0.2e12] ";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(6, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+    [Test]
+    public void findTrueEnd() {
+
+        //...................01234567890123456789
+        String json = "true";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        Assert.AreEqual(4, source.FindTrueEnd());
+
+    }
+
+    [Test]
+    public void findFalseEnd() {
+
+        //...................01234567890123456789
+        String json = "false";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        Assert.AreEqual(5, source.FindFalseEnd());
+
+    }
+
+    [Test]
+    public void findNullEnd() {
+
+        //...................01234567890123456789
+        const string json = "null";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        Assert.AreEqual(4, source.FindNullEnd());
+
+    }
+
+
+    [Test]
+    public void MatchChars() {
+
+        //...................01234567890123456789
+        const string json = "abcd";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        Assert.True(source.MatchChars(1, 3, new string("bc")));
+        Assert.False(source.MatchChars(1, 3, new string("ab")));
+
+    }
+    
+    [Test]
     public void ParseDoubleSimple()
     {
         //...................01234567890123456789

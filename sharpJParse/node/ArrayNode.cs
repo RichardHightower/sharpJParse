@@ -50,6 +50,12 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         return Elements().Length;
     }
 
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
     public NodeType Type()
     {
         return NodeType.ARRAY;
@@ -387,4 +393,6 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     {
         throw new NotImplementedException();
     }
+    
+    
 }

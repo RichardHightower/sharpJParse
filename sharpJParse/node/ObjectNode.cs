@@ -49,6 +49,12 @@ public class ObjectNode : ICollectionNode
         return ChildrenTokens()!.Count() / 2;
     }
 
+    public char this[int index]
+    {
+        get => throw new NotImplementedException();
+        set => throw new NotImplementedException();
+    }
+
     public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
