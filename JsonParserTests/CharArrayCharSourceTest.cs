@@ -122,7 +122,193 @@ public class CharArrayCharSourceTest
 
 
     //Left off here TODO 
+    
+    
+    [Test]
+    public void GetCharAt() {
 
+        //...................01234567890123456789
+        const string json = "01";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual('0', source.GetChartAt(0));
+        Assert.AreEqual('1', source.GetChartAt(1));
+
+        try {
+            /* No bounds check */
+            Assert.AreEqual(' ', source.GetChartAt(2));
+            Assert.Fail();
+        } catch (Exception ex) {
+            Console.WriteLine(ex);
+        }
+
+    }
+
+    [Test]
+    public void ToStringTest() {
+
+        //...................01234567890123456789
+        const string json = "01";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("01", source.ToString());
+
+    }
+
+
+    [Test]
+    public void FindEndOfNumberFast() {
+
+        //...................01234567890123456789
+        const string json = "01";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(2, result.EndIndex());
+        Assert.False(result.WasFloat());
+
+    }
+    
+    [Test]
+    public void FindEndOfNumberFastFloat() {
+
+        //...................01234567890123456789
+        const string json = "0.2";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(3, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFastFloatExponentInArray() {
+
+        //...................01234567890123456789
+        const string json = "0.2e12] ";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(6, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+
+
+    [Test]
+    public void FindEndOfNumberFastInArray() {
+
+        //...................01234567890123456789
+        const string json = "01]";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(2, result.EndIndex());
+        Assert.False(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFastFloatInArray() {
+
+        //...................01234567890123456789
+        const string json = "0.2]";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(3, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFastFloatExponentInArray2() {
+
+        //...................01234567890123456789
+        const string json = "0.2e12] ";
+        ICharSource source =
+                Sources.StringSource(Json.NiceJson(json));
+
+        NumberParseResult result  = source.FindEndOfNumberFast();
+        Assert.AreEqual(6, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+
+    [Test]
+    public void FindEndOfNumber() {
+
+        //...................01234567890123456789
+        const string json = "12";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+        source.Next();
+
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(2, result.EndIndex());
+        Assert.False(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFloat() {
+
+        //...................01234567890123456789
+        const string json = "0.2";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(3, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+    [Test]
+    public void FindEndOfNumberFloatExponentInArray() {
+
+        //...................01234567890123456789
+        const string json = "0.2e12] ";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(6, result.EndIndex());
+        Assert.True(result.WasFloat());
+
+    }
+
+
+
+    [Test]
+    public void FindEndOfNumberInArray() {
+
+        //...................01234567890123456789
+        const string json = "12]";
+        ICharSource source =
+            Sources.StringSource(Json.NiceJson(json));
+
+        source.Next();
+
+        NumberParseResult result  = source.FindEndOfNumber();
+        Assert.AreEqual(2, result.EndIndex());
+        Assert.False(result.WasFloat());
+
+    }
+    
     [Test]
     public void FindEndOfNumberFloatInArray()
     {
