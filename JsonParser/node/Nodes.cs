@@ -281,12 +281,6 @@ public class StringNode : IScalarNode
         return ToString();
     }
 
-
-    public int Length()
-    {
-        return _length;
-    }
-
     public char CharAt(int index)
     {
         return _source.GetChartAt(_token.startIndex + index);
@@ -302,6 +296,12 @@ public class StringNode : IScalarNode
     public override string ToString()
     {
         return _encodeStringByDefault ? _source.ToEncodedStringIfNeeded(_start, _end) : _source.GetString(_start, _end);
+    }
+
+
+    public int Length()
+    {
+        return _length;
     }
 
     public ICharSequence CharSequence()
@@ -378,12 +378,6 @@ public class NullNode : IScalarNode
         return _source;
     }
 
-
-    public int Length()
-    {
-        return 4;
-    }
-
     public char CharAt(int index)
     {
         switch (index)
@@ -410,6 +404,12 @@ public class NullNode : IScalarNode
     public override string ToString()
     {
         return "null";
+    }
+
+
+    public int Length()
+    {
+        return 4;
     }
 
     public override bool Equals(object? o)
@@ -477,12 +477,6 @@ public class BooleanNode : IScalarNode
     }
 
 
-    public int Length()
-    {
-        return _value ? 4 : 5;
-    }
-
-
     public object Value()
     {
         return BooleanValue();
@@ -526,6 +520,12 @@ public class BooleanNode : IScalarNode
     public override string ToString()
     {
         return _value ? "true" : "false";
+    }
+
+
+    public int Length()
+    {
+        return _value ? 4 : 5;
     }
 
 
@@ -599,11 +599,6 @@ public class NumberNode : IScalarNode
         return _elementType;
     }
 
-    public int Length()
-    {
-        return _token.endIndex - _token.startIndex;
-    }
-
     public char CharAt(int index)
     {
         if (index > Length()) throw new IndexOutOfRangeException();
@@ -634,6 +629,11 @@ public class NumberNode : IScalarNode
     public override string ToString()
     {
         return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
+    }
+
+    public int Length()
+    {
+        return _token.endIndex - _token.startIndex;
     }
 
     public float FloatValue()

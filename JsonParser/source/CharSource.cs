@@ -63,6 +63,8 @@ public interface ICharSource
 
     string GetString(int startIndex, int endIndex);
 
+    decimal GetDecimal(int startIndex, int endIndex);
+
     double GetDouble(int startIndex, int endIndex);
 
     float GetFloat(int startIndex, int endIndex);

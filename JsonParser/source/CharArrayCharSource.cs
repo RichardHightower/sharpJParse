@@ -1,8 +1,10 @@
 using System.Numerics;
+using JsonParser.source.support;
 using sharpJParse.parser;
+using sharpJParse.source;
 using sharpJParse.support;
 
-namespace sharpJParse.source;
+namespace JsonParser.source;
 
 public class CharArrayCharSource : ParseConstants, ICharSource
 {
@@ -93,7 +95,7 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     public float GetFloat(int startIndex, int endIndex)
     {
-        throw new NotImplementedException();
+        return float.Parse(GetString(startIndex, endIndex));
     }
 
     public int GetInt(int offset, int to)
@@ -129,34 +131,64 @@ public class CharArrayCharSource : ParseConstants, ICharSource
         return negative ? num * -1 : num;
     }
 
-    public long GetLong(int startIndex, int endIndex)
+    public long GetLong(int offset, int to)
     {
-        throw new NotImplementedException();
+        var digitChars = _data;
+
+        long num;
+        var negative = false;
+        var c = digitChars[offset];
+        if (c == '-')
+        {
+            offset++;
+            negative = true;
+        }
+
+        c = digitChars[offset];
+        num = c - '0';
+        offset++;
+
+        long digit;
+
+        for (; offset < to; offset++)
+        {
+            c = digitChars[offset];
+            digit = c - '0';
+            num = num * 10 + digit;
+        }
+
+        return negative ? num * -1 : num;
     }
 
     public ICharSequence GetCharSequence(int startIndex, int endIndex)
     {
-        throw new NotImplementedException();
+        return new CharArraySegment(startIndex, endIndex - startIndex, _data);
     }
 
     public char[] GetArray(int startIndex, int endIndex)
     {
-        throw new NotImplementedException();
+        var length = endIndex - startIndex;
+        var array = new char[length];
+
+        Array.Copy(_data, startIndex, array, 0, length);
+        return array;
     }
 
     public string GetEncodedString(int start, int end)
     {
-        throw new NotImplementedException();
+        return CharArrayUtils.DecodeJsonString(_data, start, end);
     }
 
     public string ToEncodedStringIfNeeded(int start, int end)
     {
-        throw new NotImplementedException();
+        if (CharArrayUtils.HasEscapeChar(_data, start, end))
+            return GetEncodedString(start, end);
+        return GetString(start, end);
     }
 
     public BigInteger GetBigInteger(int startIndex, int endIndex)
     {
-        throw new NotImplementedException();
+        return BigInteger.Parse(GetString(startIndex, endIndex));
     }
 
     public int FindEndOfEncodedString()
@@ -189,12 +221,32 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     public int FindEndString()
     {
-        throw new NotImplementedException();
+        var i = ++_index;
+        var data = _data;
+        var length = _length;
+        var ch = 0;
+
+        for (; i < length; i++)
+        {
+            ch = data[i];
+            switch (ch)
+            {
+                case StringEndToken:
+                    _index = i;
+                    return i;
+                default:
+                    if (ch >= SpaceWs) continue;
+                    throw new UnexpectedCharacterException("Parsing JSON string",
+                        "Unexpected character while finding closing for string", this, ch, i);
+            }
+        }
+
+        throw new UnexpectedCharacterException("Parsing JSON string", "Unable to find closing for string", this, ch, i);
     }
 
     public NumberParseResult FindEndOfNumber()
     {
-        var startCh = (int) GetCurrentChar();
+        var startCh = (int)GetCurrentChar();
         var startIndex = _index;
         int ch;
 
@@ -208,9 +260,6 @@ public class CharArrayCharSource : ParseConstants, ICharSource
         for (; i < length; i++)
         {
             ch = data[i];
-
-            char c = (char)ch;
-            Console.WriteLine("Char " + c);
 
             switch (ch)
             {
@@ -267,36 +316,36 @@ public class CharArrayCharSource : ParseConstants, ICharSource
         _index = i;
         var numLength = i - startIndex;
 
-        switch (startCh) {
+        switch (startCh)
+        {
             case Num0:
-                if (numLength != 1) {
+                if (numLength != 1)
                     throw new UnexpectedCharacterException("Parsing JSON Int Number",
                         "Int can't start with a 0 ", this, startCh, startIndex);
-                }
                 break;
             case Plus:
                 throw new UnexpectedCharacterException("Parsing JSON Int Number",
                     "Int can't start with a plus ", this, startCh, startIndex);
 
             case Minus:
-                switch (numLength) {
+                switch (numLength)
+                {
                     case 1:
                         throw new UnexpectedCharacterException("Parsing JSON Int Number",
                             "Int can't be only a minus, number is missing", this, startCh, startIndex);
-                        
+
                     case 2:
                         break;
                     default:
-                        if (data[startIndex + 1] == Num0) {
-
+                        if (data[startIndex + 1] == Num0)
                             throw new UnexpectedCharacterException("Parsing JSON Int Number",
                                 "0 can't be after minus sign", this, startCh, startIndex);
-                        }
                         break;
                 }
 
                 break;
         }
+
         return new NumberParseResult(i, false);
     }
 
@@ -808,29 +857,64 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     public bool FindObjectEndOrAttributeSep()
     {
-        throw new NotImplementedException();
+        var i = _index;
+        var ch = 0;
+        var data = _data;
+        var length = _length;
+
+        for (; i < length; i++)
+        {
+            ch = data[i];
+            switch (ch)
+            {
+                case ObjectEndToken:
+                    _index = i + 1;
+                    return true;
+                case AttributeSep:
+                    _index = i;
+                    return false;
+            }
+        }
+
+        throw new UnexpectedCharacterException("Parsing Object Key", "Finding object end or separator", this);
     }
 
     public void CheckForJunk()
     {
-        throw new NotImplementedException();
+        var index = _index;
+        var data = _data;
+        var length = _length;
+        var ch = Etx;
+
+        for (; index < length; index++)
+        {
+            ch = data[index];
+            switch (ch)
+            {
+                case NewLineWs:
+                case CarriageReturnWs:
+                case TabWs:
+                case SpaceWs:
+                    continue;
+                default:
+                    throw new UnexpectedCharacterException("Junk", "Unexpected extra characters", this);
+            }
+        }
     }
-    
-    
-
-    public NumberParseResult FindEndOfNumberFast() {
 
 
-        int i = _index + 1;
-        int ch = 0;
-        char[] data = _data;
-        int length = _length;
-        for (; i < length; i++) {
-
+    public NumberParseResult FindEndOfNumberFast()
+    {
+        var i = _index + 1;
+        var ch = 0;
+        var data = _data;
+        var length = _length;
+        for (; i < length; i++)
+        {
             ch = data[i];
 
-            switch (ch) {
-
+            switch (ch)
+            {
                 case NewLineWs:
                 case CarriageReturnWs:
                 case TabWs:
@@ -867,14 +951,11 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
                 default:
                     throw new InvalidOperationException("Unexpected character " + ch + " at index " + _index);
-
             }
-
         }
 
         _index = i;
         return new NumberParseResult(i, false);
-
     }
 
     public int FindEndOfEncodedStringFast()
@@ -911,12 +992,50 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
     public bool FindChar(char c)
     {
-        throw new NotImplementedException();
+        var index = _index;
+        var data = _data;
+        var length = _length;
+
+        for (; index < length; index++)
+            if (data[index] == c)
+            {
+                _index = index;
+                return true;
+            }
+
+        return false;
     }
 
     public int FindAttributeEnd()
     {
-        throw new NotImplementedException();
+        var index = _index;
+        var data = _data;
+        var length = _length;
+
+
+        for (; index < length; index++)
+        {
+            int ch = data[index];
+            switch (ch)
+            {
+                case NewLineWs:
+                case CarriageReturnWs:
+                case TabWs:
+                case SpaceWs:
+                case AttributeSep:
+                    _index = index;
+                    goto loop;
+            }
+        }
+
+        loop:
+
+        return index;
+    }
+
+    public decimal GetDecimal(int startIndex, int endIndex)
+    {
+        return decimal.Parse(GetString(startIndex, endIndex));
     }
 
 
@@ -1157,20 +1276,20 @@ public class CharArrayCharSource : ParseConstants, ICharSource
                 return false;
         }
     }
-    
-
-    private NumberParseResult FindEndOfFloatFast() {
 
 
-        int i = _index + 1;
-        int ch =  0;
-        char[] data = _data;
-        int length = _length;
+    private NumberParseResult FindEndOfFloatFast()
+    {
+        var i = _index + 1;
+        var ch = 0;
+        var data = _data;
+        var length = _length;
 
-        for (; i < length; i++) {
+        for (; i < length; i++)
+        {
             ch = data[i];
-            switch (ch) {
-
+            switch (ch)
+            {
                 case NewLineWs:
                 case CarriageReturnWs:
                 case TabWs:
@@ -1201,30 +1320,29 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
 
                 default:
-                    throw new UnexpectedCharacterException("Parsing JSON Float Number", "Unexpected character", this,  ch, i);
-
+                    throw new UnexpectedCharacterException("Parsing JSON Float Number", "Unexpected character", this,
+                        ch, i);
             }
-
         }
 
 
         _index = i;
         return new NumberParseResult(i, true);
-
     }
 
-    private NumberParseResult ParseFloatWithExponentFast() {
-
-        int i = _index + 1;
-        int ch = 0;
-        int signOperator = 0;
-        char[] data = _data;
-        int length = _length;
-        for (; i < length; i++) {
+    private NumberParseResult ParseFloatWithExponentFast()
+    {
+        var i = _index + 1;
+        var ch = 0;
+        var signOperator = 0;
+        var data = _data;
+        var length = _length;
+        for (; i < length; i++)
+        {
             ch = data[i];
 
-            switch (ch) {
-
+            switch (ch)
+            {
                 case NewLineWs:
                 case CarriageReturnWs:
                 case TabWs:
@@ -1239,9 +1357,8 @@ public class CharArrayCharSource : ParseConstants, ICharSource
                 case Minus:
                 case Plus:
                     signOperator++;
-                    if (signOperator > 1) {
+                    if (signOperator > 1)
                         throw new InvalidOperationException("Too many sign operators when parsing exponent of float");
-                    }
                     break;
 
                 case Num0:
@@ -1259,19 +1376,16 @@ public class CharArrayCharSource : ParseConstants, ICharSource
 
                 default:
                     throw new InvalidOperationException("Unexpected character " + ch + " at index " + _index);
-
             }
-
         }
 
 
         _index = i;
         return new NumberParseResult(i, true);
-
     }
-    
-    public override string ToString() {
+
+    public override string ToString()
+    {
         return new string(_data);
     }
-
 }

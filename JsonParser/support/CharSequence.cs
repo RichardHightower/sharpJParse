@@ -4,9 +4,10 @@ public interface ICharSequence
 {
     char this[int index] => CharAt(index);
 
+    int Length { get; }
+
     string? ToString();
     char CharAt(int index);
-    int Length();
 
     ICharSequence SubSequence(int start, int end);
 }

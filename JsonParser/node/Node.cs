@@ -6,10 +6,13 @@ namespace sharpJParse.node;
 
 public interface INode : ICharSequence
 {
-    int ICharSequence.Length()
+    int ICharSequence.Length
     {
-        var token = RootElementToken();
-        return token.endIndex - token.startIndex;
+        get
+        {
+            var token = RootElementToken();
+            return token.endIndex - token.startIndex;
+        }
     }
 
 

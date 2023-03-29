@@ -4,8 +4,8 @@ public class CharSequenceUtils
 {
     public static bool Equals(ICharSequence cs1, ICharSequence cs2)
     {
-        if (cs1.Length() != cs2.Length()) return false;
-        var len = cs1.Length();
+        if (cs1.Length != cs2.Length) return false;
+        var len = cs1.Length;
 
         for (var i = 0; i < len; i++)
         {
@@ -20,7 +20,7 @@ public class CharSequenceUtils
     public static int GetHashCode(ICharSequence cs)
     {
         var h = 0;
-        for (var index = 0; index < cs.Length(); index++)
+        for (var index = 0; index < cs.Length; index++)
         {
             var v = cs.CharAt(index);
             h = 31 * h + v;

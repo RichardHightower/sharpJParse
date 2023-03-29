@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using sharpJParse.parser;
 
 namespace sharpJParse.source;
 
 #pragma warning disable NUnit2005
-[SuppressMessage("ReSharper", "SuggestVarOrType_BuiltInTypes")]
 [SuppressMessage("ReSharper", "SuggestVarOrType_SimpleTypes")]
 public class CharArrayCharSourceTest
 {
@@ -677,6 +677,116 @@ public class CharArrayCharSourceTest
         s = "" + value;
         charSource = Sources.StringSource(s);
         Assert.False(charSource.IsInteger(0, s.Length));
+    }
+    
+    
+
+
+    [Test]
+    public void ParseFloatSimple() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "1.2";
+        ICharSource charSource = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual(1.2f, charSource.GetFloat(0, 3), 0.000001);
+
+    }
+
+    [Test]
+    public void ParseFloatExp() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "1.2e12";
+        ICharSource charSource = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual(1.2e12f, charSource.GetFloat(0, 6), 0.000001);
+
+    }
+
+
+
+    [Test]
+    public void ParseIntSimple() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "100";
+        ICharSource charSource = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("100", charSource.GetString(0, 3));
+        Assert.AreEqual(100, charSource.GetInt(0, 3));
+
+    }
+
+    [Test]
+    public void ParseLongSimple() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "100";
+        ICharSource charSource = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("100", charSource.GetString(0, 3));
+        Assert.AreEqual(100, charSource.GetLong(0, 3));
+
+    }
+
+    [Test]
+    public void GetBigDecimal() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "100";
+        ICharSource source = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("100", source.GetString(0, 3));
+        Assert.AreEqual(100m, source.GetDecimal(0,3));
+
+    }
+
+    [Test]
+    public void GetBigInt() {
+        // .......................012345
+        //...................01234567890123456789
+        const string json = "100";
+        ICharSource source = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("100", source.GetString(0, 3));
+        Assert.AreEqual(new BigInteger(100), source.GetBigInteger(0, 3));
+
+    }
+
+    [Test]
+    public void GetEncodedString() {
+        // ....................................012345678901
+        //................................01234567890123456789
+        string json = Json.NiceJson("`b`n`r`t ");
+        ICharSource source = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual(Json.NiceJson("`b`n`r`t"), source.GetString(0, 8));
+        Assert.AreEqual("\b\n\r\t", source.GetEncodedString(0, 8));
+
+    }
+
+    [Test]
+    public void ToEncodedStringIfNeeded() {
+        // ....................................012345678901
+        //................................01234567890123456789
+        string json = Json.NiceJson("`b`n`r`t ");
+        ICharSource source = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual(Json.NiceJson("`b`n`r`t"), source.GetString(0, 8));
+        Assert.AreEqual("\b\n\r\t", source.ToEncodedStringIfNeeded(0, 8));
+
+    }
+
+    [Test]
+    public void ToEncodedStringIfNeededNotNeeded() {
+        // ....................................012345678901
+        //.................................01234567890123456789
+        string json = Json.NiceJson("himom");
+        ICharSource source = Sources.StringSource(Json.NiceJson(json));
+
+        Assert.AreEqual("himom", source.ToEncodedStringIfNeeded(0, 5));
+
     }
 }
 #pragma warning restore NUnit2005

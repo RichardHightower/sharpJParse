@@ -46,11 +46,6 @@ public class ObjectNode : ICollectionNode
         throw new NotImplementedException();
     }
 
-    public int Length()
-    {
-        return ChildrenTokens()!.Count() / 2;
-    }
-
     public NodeType Type()
     {
         return NodeType.OBJECT;
@@ -86,6 +81,11 @@ public class ObjectNode : ICollectionNode
     public override string ToString()
     {
         return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
+    }
+
+    public int Length()
+    {
+        return ChildrenTokens()!.Count() / 2;
     }
 
     public List<ICharSequence> GetKeys()
@@ -309,12 +309,12 @@ public class ObjectNode : ICollectionNode
 
         if (keyToken.type == TokenTypes.STRING_TOKEN)
         {
-            if (keyToken.Length() != key.Length()) return false;
+            if (keyToken.Length() != key.Length) return false;
             if (_objectsKeysCanBeEncoded)
             {
                 var stringNode = new StringNode(keyToken, _source, _objectsKeysCanBeEncoded);
                 var str = stringNode.ToString();
-                for (var index = 0; index < key.Length(); index++)
+                for (var index = 0; index < key.Length; index++)
                     if (str[index] != key.CharAt(index))
                         return false;
                 return true;

@@ -19,6 +19,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     private INode?[]? _elements;
     private int _hashCode;
     private bool _hashCodeSet;
+    private int _length;
 
     public ArrayNode(TokenSubList tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
@@ -45,10 +46,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         throw new NotImplementedException();
     }
 
-    public int Length()
-    {
-        return Elements().Length;
-    }
+    int ICharSequence.Length => Elements().Length;
 
     public NodeType Type()
     {
@@ -73,6 +71,11 @@ public class ArrayNode : Collection<INode>, ICollectionNode
     public ICharSequence SubSequence(int start, int end)
     {
         throw new NotImplementedException();
+    }
+
+    public int Length()
+    {
+        return Elements().Length;
     }
     //
     // public string ToString() {
