@@ -1,0 +1,12 @@
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/bin/Debug/net7.0/JsonParser.deps.json
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/bin/Debug/net7.0/JsonParser.dll
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/bin/Debug/net7.0/JsonParser.pdb
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.csproj.AssemblyReference.cache
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.GeneratedMSBuildEditorConfig.editorconfig
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.AssemblyInfoInputs.cache
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.AssemblyInfo.cs
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.csproj.CoreCompileInputs.cache
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.dll
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/refint/JsonParser.dll
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/JsonParser.pdb
+/Users/richardhightower/RiderProjects/sharpJParse/JsonParser/obj/Debug/net7.0/ref/JsonParser.dll

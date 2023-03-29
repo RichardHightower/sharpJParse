@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpJParse", "sharpJParse\sharpJParse.csproj", "{B480A471-8A0E-469E-915D-C7D7B6715F79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParserTests", "JsonParserTests\JsonParserTests.csproj", "{B480A471-8A0E-469E-915D-C7D7B6715F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParser", "JsonParser\JsonParser.csproj", "{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{B480A471-8A0E-469E-915D-C7D7B6715F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B480A471-8A0E-469E-915D-C7D7B6715F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B480A471-8A0E-469E-915D-C7D7B6715F79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

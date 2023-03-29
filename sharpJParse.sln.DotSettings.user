@@ -6,8 +6,5 @@
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f48a4f10_002Dd819_002D49f9_002D9115_002D345d70ac62f8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from CharArrayUtilsTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;ProjectFile&gt;B480A471-8A0E-469E-915D-C7D7B6715F79/f:CharArrayUtilsTest.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;B480A471-8A0E-469E-915D-C7D7B6715F79/d:source/f:CharArrayCharSourceTest.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
+  &lt;Project Location="/Users/richardhightower/RiderProjects/sharpJParse/JsonParserTests" Presentation="&amp;lt;JsonParserTests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
