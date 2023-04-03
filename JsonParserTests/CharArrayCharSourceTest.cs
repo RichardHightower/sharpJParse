@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using sharpJParse.parser;
+using sharpJParse.source;
 
-namespace sharpJParse.source;
+namespace sharpJParse;
 
 #pragma warning disable NUnit2005
 [SuppressMessage("ReSharper", "SuggestVarOrType_SimpleTypes")]
