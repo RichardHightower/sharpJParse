@@ -1,7 +1,10 @@
 .idea
 bin
-sharpJParse/bin
-sharpJParse/obj
+JParse/bin
+JParse/obj
+JsonParserTests/bin
+JsonParserTests/obj
+
 
 
 

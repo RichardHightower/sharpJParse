@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using sharpJParse.parser;
-using sharpJParse.source;
+using JsonParser.parser;
+using JsonParser.source;
 
 namespace sharpJParse;
 

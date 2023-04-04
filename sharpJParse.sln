@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParserTests", "JsonParserTests\JsonParserTests.csproj", "{B480A471-8A0E-469E-915D-C7D7B6715F79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonParser", "JsonParser\JsonParser.csproj", "{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JParse", "JParse\JParse.csproj", "{90CCA6AF-BE68-460C-BAB0-7DDFBA708A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
