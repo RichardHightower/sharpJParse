@@ -1,7 +1,6 @@
 using JsonParser.node.support;
 using JsonParser.source;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node;
 
@@ -16,9 +15,9 @@ public abstract class NodeUtils
         {
             var token = tokens[index];
 
-            if (token.startIndex > root.endIndex) break;
+            if (token.StartIndex > root.EndIndex) break;
 
-            if (token.type <= TokenTypes.ARRAY_ITEM_TOKEN)
+            if (token.Type <= TokenTypes.ARRAY_ITEM_TOKEN)
             {
                 var childCount = tokens.CountChildren(index, token);
                 var endIndex = index + childCount;
@@ -36,7 +35,7 @@ public abstract class NodeUtils
 
     public static INode? CreateNode(IList<Token> tokens, ICharSource source, bool objectsKeysCanBeEncoded)
     {
-        var nodeType = NodeTypeUtil.TokenTypeToElement(tokens[0].type);
+        var nodeType = NodeTypeUtil.TokenTypeToElement(tokens[0].Type);
         var token = tokens[0];
         switch (nodeType)
         {
@@ -71,7 +70,7 @@ public abstract class NodeUtils
         var rootToken = theTokens[1];
         var tokens = theTokens.SubList(1, theTokens.Count());
         var token = tokens[0];
-        var nodeType = NodeTypeUtil.TokenTypeToElement(rootToken.type);
+        var nodeType = NodeTypeUtil.TokenTypeToElement(rootToken.Type);
 
         switch (nodeType)
         {

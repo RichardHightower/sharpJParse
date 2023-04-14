@@ -1,6 +1,5 @@
 using System.Collections;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node.support;
 
@@ -42,6 +41,20 @@ public class TokenList : IList<Token>
         _tokens[Count] = token;
         Count++;
     }
+    
+    public void PlaceHolder()
+    {
+        int length = _tokens.Length;
+        if (Count >= length)
+        {
+            Token[] newTokens = new Token[length * 2];
+            Array.Copy(_tokens, 0, newTokens, 0, length);
+            _tokens = newTokens;
+        }
+        Count++;
+    }
+
+
 
     public void Clear()
     {
@@ -138,5 +151,11 @@ public class TokenList : IList<Token>
         {
             return tokens[index];
         }
+    }
+
+    public void UndoPlaceHolder()
+    {
+        Count--;
+        throw new NotImplementedException();
     }
 }

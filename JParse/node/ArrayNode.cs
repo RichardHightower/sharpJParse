@@ -5,7 +5,6 @@ using JsonParser.node.support;
 using JsonParser.source;
 using JsonParser.support;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node;
 
@@ -214,7 +213,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         for (var i = 0; i < length; i++)
         {
             var token = _tokens[i + 1];
-            array[i] = double.Parse(_source.GetString(token.startIndex, token.endIndex), CultureInfo.InvariantCulture);
+            array[i] = double.Parse(_source.GetString(token.StartIndex, token.EndIndex), CultureInfo.InvariantCulture);
         }
 
         return array;
@@ -227,7 +226,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         for (var i = 0; i < length; i++)
         {
             var token = _tokens.Get(i + 1);
-            array[i] = float.Parse(_source.GetString(token.startIndex, token.endIndex), CultureInfo.InvariantCulture);
+            array[i] = float.Parse(_source.GetString(token.StartIndex, token.EndIndex), CultureInfo.InvariantCulture);
         }
 
         return array;
@@ -242,7 +241,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         {
             var token = _tokens.Get(i + 1);
 
-            array[i] = BigInteger.Parse(_source.GetString(token.startIndex, token.endIndex),
+            array[i] = BigInteger.Parse(_source.GetString(token.StartIndex, token.EndIndex),
                 CultureInfo.InvariantCulture);
         }
 
@@ -256,7 +255,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         for (var i = 0; i < length; i++)
         {
             var token = _tokens.Get(i + 1);
-            array[i] = _source.GetInt(token.startIndex, token.endIndex);
+            array[i] = _source.GetInt(token.StartIndex, token.EndIndex);
         }
 
         return array;
@@ -269,7 +268,7 @@ public class ArrayNode : Collection<INode>, ICollectionNode
         for (var i = 0; i < length; i++)
         {
             var token = _tokens.Get(i + 1);
-            array[i] = _source.GetLong(token.startIndex, token.endIndex);
+            array[i] = _source.GetLong(token.StartIndex, token.EndIndex);
         }
 
         return array;

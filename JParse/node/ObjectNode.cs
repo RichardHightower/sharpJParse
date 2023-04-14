@@ -3,7 +3,6 @@ using JsonParser.node.support;
 using JsonParser.source;
 using JsonParser.support;
 using JsonParser.token;
-using sharpJParse.token;
 
 #pragma warning disable CS8619
 
@@ -81,7 +80,7 @@ public class ObjectNode : ICollectionNode
 
     public override string ToString()
     {
-        return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
+        return _source.GetString(RootElementToken().StartIndex, RootElementToken().EndIndex);
     }
 
     public int Length()
@@ -308,7 +307,7 @@ public class ObjectNode : ICollectionNode
     {
         var keyToken = itemKey[1];
 
-        if (keyToken.type == TokenTypes.STRING_TOKEN)
+        if (keyToken.Type == TokenTypes.STRING_TOKEN)
         {
             if (keyToken.Length() != key.Length) return false;
             if (_objectsKeysCanBeEncoded)
@@ -321,7 +320,7 @@ public class ObjectNode : ICollectionNode
                 return true;
             }
 
-            return _source.MatchChars(keyToken.startIndex, keyToken.endIndex, key);
+            return _source.MatchChars(keyToken.StartIndex, keyToken.EndIndex, key);
         }
 
         return false;
@@ -338,7 +337,7 @@ public class ObjectNode : ICollectionNode
             {
                 IList<Token> itemKey = childrenTokens[index];
                 var keyToken = itemKey[1];
-                switch (keyToken.type)
+                switch (keyToken.Type)
                 {
                     case TokenTypes.STRING_TOKEN:
                         var element = new StringNode(keyToken, _source, _objectsKeysCanBeEncoded);
@@ -346,7 +345,7 @@ public class ObjectNode : ICollectionNode
                         break;
                     default:
                         throw new InvalidOperationException("Only String are allowed for keys " +
-                                                            TokenTypes.GetTypeName(keyToken.type));
+                                                            TokenTypes.GetTypeName(keyToken.Type));
                 }
 
                 ;

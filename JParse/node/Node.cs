@@ -1,7 +1,6 @@
 using JsonParser.source;
 using JsonParser.support;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node;
 
@@ -12,21 +11,21 @@ public interface INode : ICharSequence
         get
         {
             var token = RootElementToken();
-            return token.endIndex - token.startIndex;
+            return token.EndIndex - token.StartIndex;
         }
     }
 
 
     char ICharSequence.CharAt(int index)
     {
-        return CharSource().GetChartAt(RootElementToken().startIndex + index);
+        return CharSource().GetChartAt(RootElementToken().StartIndex + index);
     }
 
 
     ICharSequence ICharSequence.SubSequence(int start, int end)
     {
         var token = RootElementToken();
-        return CharSource().GetCharSequence(start + token.startIndex, end + token.startIndex);
+        return CharSource().GetCharSequence(start + token.StartIndex, end + token.StartIndex);
     }
 
     string? ICharSequence.ToString()
@@ -57,7 +56,7 @@ public interface INode : ICharSequence
 
     string OriginalString()
     {
-        return CharSource().GetString(RootElementToken().startIndex, RootElementToken().endIndex);
+        return CharSource().GetString(RootElementToken().StartIndex, RootElementToken().EndIndex);
     }
 
     string ToJsonString()
@@ -67,7 +66,7 @@ public interface INode : ICharSequence
 
     ICharSequence OriginalCharSequence()
     {
-        return CharSource().GetCharSequence(RootElementToken().startIndex, RootElementToken().endIndex);
+        return CharSource().GetCharSequence(RootElementToken().StartIndex, RootElementToken().EndIndex);
     }
 
     ICharSequence ToJsonCharSequence()

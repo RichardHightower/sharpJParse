@@ -3,7 +3,6 @@ using JsonParser.node.support;
 using JsonParser.source;
 using JsonParser.support;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node;
 
@@ -27,7 +26,7 @@ public class RootNode : ICollectionNode
 
     public INode GetNode(object key)
     {
-        switch (_rootToken.type)
+        switch (_rootToken.Type)
         {
             case TokenTypes.OBJECT_TOKEN:
                 return GetObjectNode().GetNode(key);
@@ -80,13 +79,13 @@ public class RootNode : ICollectionNode
 
     public NodeType RootType()
     {
-        return NodeTypeUtil.TokenTypeToElement(_rootToken.type);
+        return NodeTypeUtil.TokenTypeToElement(_rootToken.Type);
     }
 
 
     public List<TokenSubList>? ChildrenTokens()
     {
-        switch (_rootToken.type)
+        switch (_rootToken.Type)
         {
             case TokenTypes.OBJECT_TOKEN:
                 return GetObjectNode().ChildrenTokens();
@@ -229,20 +228,20 @@ public class StringNode : IScalarNode
     {
         _token = token;
         _source = source;
-        _start = token.startIndex;
-        _end = token.endIndex;
+        _start = token.StartIndex;
+        _end = token.EndIndex;
         _encodeStringByDefault = encodeStringByDefault;
-        _length = token.endIndex - token.startIndex;
+        _length = token.EndIndex - token.StartIndex;
     }
 
     public StringNode(Token token, ICharSource source)
     {
         _token = token;
         _source = source;
-        _start = token.startIndex;
-        _end = token.endIndex;
+        _start = token.StartIndex;
+        _end = token.EndIndex;
         _encodeStringByDefault = true;
-        _length = token.endIndex - token.startIndex;
+        _length = token.EndIndex - token.StartIndex;
     }
 
     public NodeType Type()
@@ -284,7 +283,7 @@ public class StringNode : IScalarNode
 
     public char CharAt(int index)
     {
-        return _source.GetChartAt(_token.startIndex + index);
+        return _source.GetChartAt(_token.StartIndex + index);
     }
 
 
@@ -438,7 +437,7 @@ public class BooleanNode : IScalarNode
     {
         _token = token;
         _source = source;
-        _value = _source.GetChartAt(_token.startIndex) == 't';
+        _value = _source.GetChartAt(_token.StartIndex) == 't';
     }
 
     public NodeType Type()
@@ -565,24 +564,24 @@ public class NumberNode : IScalarNode
 
     public int IntValue()
     {
-        return _source.GetInt(_token.startIndex, _token.endIndex);
+        return _source.GetInt(_token.StartIndex, _token.EndIndex);
     }
 
 
     public long LongValue()
     {
-        return _source.GetLong(_token.startIndex, _token.endIndex);
+        return _source.GetLong(_token.StartIndex, _token.EndIndex);
     }
 
     public double DoubleValue()
     {
-        return _source.GetDouble(_token.startIndex, _token.endIndex);
+        return _source.GetDouble(_token.StartIndex, _token.EndIndex);
     }
 
 
     public BigInteger BigIntegerValue()
     {
-        return _source.GetBigInteger(_token.startIndex, _token.endIndex);
+        return _source.GetBigInteger(_token.StartIndex, _token.EndIndex);
     }
 
 
@@ -603,13 +602,13 @@ public class NumberNode : IScalarNode
     public char CharAt(int index)
     {
         if (index > Length()) throw new IndexOutOfRangeException();
-        return _source.GetChartAt(_token.startIndex + index);
+        return _source.GetChartAt(_token.StartIndex + index);
     }
 
     public ICharSequence SubSequence(int start, int end)
     {
         if (end > Length()) throw new IndexOutOfRangeException();
-        return _source.GetCharSequence(start + _token.startIndex, end + _token.startIndex);
+        return _source.GetCharSequence(start + _token.StartIndex, end + _token.StartIndex);
     }
 
     public IList<Token> Tokens()
@@ -629,17 +628,17 @@ public class NumberNode : IScalarNode
 
     public override string ToString()
     {
-        return _source.GetString(RootElementToken().startIndex, RootElementToken().endIndex);
+        return _source.GetString(RootElementToken().StartIndex, RootElementToken().EndIndex);
     }
 
     public int Length()
     {
-        return _token.endIndex - _token.startIndex;
+        return _token.EndIndex - _token.StartIndex;
     }
 
     public float FloatValue()
     {
-        return _source.GetFloat(_token.startIndex, _token.endIndex);
+        return _source.GetFloat(_token.StartIndex, _token.EndIndex);
     }
 
 
@@ -669,7 +668,7 @@ public class NumberNode : IScalarNode
         switch (_elementType)
         {
             case NodeType.INT:
-                return _source.IsInteger(_token.startIndex, _token.endIndex);
+                return _source.IsInteger(_token.StartIndex, _token.EndIndex);
             default:
                 return false;
         }
@@ -680,7 +679,7 @@ public class NumberNode : IScalarNode
         switch (_elementType)
         {
             case NodeType.INT:
-                return !_source.IsInteger(_token.startIndex, _token.endIndex);
+                return !_source.IsInteger(_token.StartIndex, _token.EndIndex);
             default:
                 return false;
         }

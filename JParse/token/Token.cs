@@ -1,5 +1,4 @@
 using JsonParser.source;
-using sharpJParse.token;
 
 namespace JsonParser.token;
 
@@ -21,39 +20,39 @@ namespace JsonParser.token;
 
 public readonly struct Token
 {
-    public readonly int endIndex;
+    public readonly int EndIndex;
 
-    public readonly int startIndex;
-    public readonly int type;
+    public readonly int StartIndex;
+    public readonly int Type;
 
     public Token(int startIndex, int endIndex, int type)
     {
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
-        this.type = type;
+        this.StartIndex = startIndex;
+        this.EndIndex = endIndex;
+        this.Type = type;
     }
 
     public string AsString(string buffer)
     {
-        return buffer.Substring(startIndex, endIndex);
+        return buffer.Substring(StartIndex, EndIndex);
     }
 
     public string AsString(ICharSource source)
     {
-        return source.GetString(startIndex, endIndex);
+        return source.GetString(StartIndex, EndIndex);
     }
 
     public int Length()
     {
-        return endIndex - startIndex;
+        return EndIndex - StartIndex;
     }
 
     public override string ToString()
     {
         return "Token{" +
-               "startIndex=" + startIndex +
-               ", endIndex=" + endIndex +
-               ", type=" + TokenTypes.GetTypeName(type) + " " + type +
+               "startIndex=" + StartIndex +
+               ", endIndex=" + EndIndex +
+               ", type=" + TokenTypes.GetTypeName(Type) + " " + Type +
                '}';
     }
 }

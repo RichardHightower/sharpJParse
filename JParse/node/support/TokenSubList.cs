@@ -1,6 +1,5 @@
 using System.Collections;
 using JsonParser.token;
-using sharpJParse.token;
 
 namespace JsonParser.node.support;
 
@@ -112,15 +111,15 @@ public class TokenSubList : IList<Token>
         var tokens = _tokens;
         var length = Count;
         var offset = _offset;
-        var rootTokenStart = rootToken.startIndex;
-        var rootTokenEnd = rootToken.endIndex;
+        var rootTokenStart = rootToken.StartIndex;
+        var rootTokenEnd = rootToken.EndIndex;
         for (; idx < length; idx++)
         {
             var token = tokens[idx + offset];
 
 
-            if (token.startIndex >= rootTokenStart
-                && token.endIndex <= rootTokenEnd)
+            if (token.StartIndex >= rootTokenStart
+                && token.EndIndex <= rootTokenEnd)
                 count++;
             else
                 break;
