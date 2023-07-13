@@ -8,6 +8,10 @@ public class CharArraySegment : ICharSequence
 
     private readonly int _offset;
 
+    private bool hashCodeSet;
+
+    private int hashCode;
+
     public CharArraySegment(int offset, int length, char[] data)
     {
         _offset = offset;
@@ -36,61 +40,61 @@ public class CharArraySegment : ICharSequence
     public override bool Equals(object? o)
     {
         if (this == o) return true;
-        if (o is CharArraySegment)
+        switch (o)
         {
-            var other = (CharArraySegment)o;
-
-            if (other.Length != Length) return false;
-
-            var end = Length + _offset;
-            for (int i = _offset, j = other._offset; i < end; i++, j++)
+            case CharArraySegment segment when segment.Length != Length:
+                return false;
+            case CharArraySegment segment:
             {
-                var cOther = other._data[j];
-                var cThis = _data[i];
-                if (cOther != cThis) return false;
+                var end = Length + _offset;
+                for (int i = _offset, j = segment._offset; i < end; i++, j++)
+                {
+                    var cOther = segment._data[j];
+                    var cThis = _data[i];
+                    if (cOther != cThis) return false;
+                }
+
+                return true;
             }
-
-            return true;
-        }
-
-        if (o is ICharSequence)
-        {
-            var other = (ICharSequence)o;
-
-            if (other.Length != Length) return false;
-            var end = Length + _offset;
-            for (int i = _offset, j = 0; i < end; i++, j++)
+            case ICharSequence other:
             {
-                var cOther = other.CharAt(j);
-                var cThis = _data[i];
-                if (cOther != cThis) return false;
+                if (other.Length != Length) return false;
+                var end = Length + _offset;
+                for (int i = _offset, j = 0; i < end; i++, j++)
+                {
+                    var cOther = other.CharAt(j);
+                    var cThis = _data[i];
+                    if (cOther != cThis) return false;
+                }
+                return true;
             }
-
-            return true;
-        }
-
-        if (o is string)
-        {
-            var other = (string)o;
-
-            if (other.Length != Length) return false;
-            var end = Length + _offset;
-            for (int i = _offset, j = 0; i < end; i++, j++)
+            case string s:
             {
-                var cOther = other[j];
-                var cThis = _data[i];
-                if (cOther != cThis) return false;
+                var other = s;
+                if (other.Length != Length) return false;
+                var end = Length + _offset;
+                for (int i = _offset, j = 0; i < end; i++, j++)
+                {
+                    var cOther = other[j];
+                    var cThis = _data[i];
+                    if (cOther != cThis) return false;
+                }
+                return true;
             }
-
-            return true;
+            default:
+                return false;
         }
-
-        return false;
     }
 
     public override int GetHashCode()
     {
-        return ToString().GetHashCode();
+        if (hashCodeSet)
+        {
+            return hashCode;
+        }
+        hashCode = ToString().GetHashCode();
+        hashCodeSet = true;
+        return hashCode;
     }
 
     public override string ToString()

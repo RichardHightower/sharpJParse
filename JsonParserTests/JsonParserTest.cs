@@ -115,7 +115,7 @@ public class JsonParserTest
         IJsonParser parser = JsonParser();
         var json = Json.NiceJson("{'1':1}");
         var rootNode = parser.Parse(json);
-        //TODO Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(1));
+        Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(1));
     }
     [Test]
     public void Test2ItemIntKeyMap()
@@ -124,7 +124,7 @@ public class JsonParserTest
         string json = Json.NiceJson("{'1':2,'2':3}");
 
         var rootNode = parser.Parse(json);
-        //TODO Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(1));
+        Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(2));
     }
     
     [Test]
@@ -134,7 +134,8 @@ public class JsonParserTest
         string json = Json.NiceJson("{'1':2,'2':7,'abc':[1,2,3]}");
 
         var rootNode = parser.Parse(json);
-        //TODO Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(1));
+        Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(2));
+        Assert.That(rootNode.GetObjectNode().GetArrayNode("abc").GetInt(0), Is.EqualTo(1));
     }
 
     [Test]
@@ -144,7 +145,7 @@ public class JsonParserTest
         string json = Json.NiceJson("{'abc':[1,2,'3']}");
 
         var rootNode = parser.Parse(json);
-        //TODO Assert.That(rootNode.GetObjectNode().GetInt("1"), Is.EqualTo(1));
+        Assert.That(rootNode.GetObjectNode().GetArrayNode("abc").GetInt(1), Is.EqualTo(2));
     }
 
 

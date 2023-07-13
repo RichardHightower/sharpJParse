@@ -1,6 +1,7 @@
 using System.Numerics;
 using JsonParser.node.support;
 using JsonParser.source;
+using JsonParser.source.support;
 using JsonParser.support;
 using JsonParser.token;
 
@@ -36,9 +37,15 @@ public class ObjectNode : ICollectionNode
         return _childrenTokens ??= NodeUtils.GetChildrenTokens(_tokens);
     }
 
-    public INode GetNode(object key)
+    public INode? GetNode(object key)
     {
-        return LookupElement((ICharSequence)key);
+        return key switch
+        {
+            null => throw new NullReferenceException("Object key cannot be null"),
+            string sKey => LookupElement(new StringCharSequence(sKey)),
+            ICharSequence charSequence => LookupElement(charSequence),
+            _ => throw new ArgumentException("Object key wrong type")
+        };
     }
 
     public char CharAt(int index)
@@ -194,12 +201,27 @@ public class ObjectNode : ICollectionNode
         return (NumberNode)GetNode(key);
     }
 
+    public NumberNode GetNumberNode(string key)
+    {
+        return (NumberNode)GetNode(key);
+    }
+
     public NullNode GetNullNode(ICharSequence key)
+    {
+        return (NullNode)GetNode(key);
+    }
+    
+    public NullNode GetNullNode(string key)
     {
         return (NullNode)GetNode(key);
     }
 
     public long GetLong(ICharSequence key)
+    {
+        return ((NumberNode)GetNode(key)).LongValue();
+    }
+    
+    public long GetLong(string key)
     {
         return ((NumberNode)GetNode(key)).LongValue();
     }
@@ -209,7 +231,17 @@ public class ObjectNode : ICollectionNode
         return ((NumberNode)GetNode(key)).DoubleValue();
     }
 
+    public double GetDouble(string key)
+    {
+        return ((NumberNode)GetNode(key)).DoubleValue();
+    }
+
     public int GetInt(ICharSequence key)
+    {
+        return ((NumberNode)GetNode(key)).IntValue();
+    }
+    
+    public int GetInt(string key)
     {
         return ((NumberNode)GetNode(key)).IntValue();
     }
@@ -218,8 +250,18 @@ public class ObjectNode : ICollectionNode
     {
         return ((NumberNode)GetNode(key)).FloatValue();
     }
+    
+    public float GetFloat(string key)
+    {
+        return ((NumberNode)GetNode(key)).FloatValue();
+    }
 
     public decimal GetDecimal(ICharSequence key)
+    {
+        return 1; // TODO fix //getNumberNode(key).bigDecimalValue();
+    }
+    
+    public decimal GetDecimal(string key)
     {
         return 1; // TODO fix //getNumberNode(key).bigDecimalValue();
     }
@@ -228,13 +270,28 @@ public class ObjectNode : ICollectionNode
     {
         return GetNumberNode(key).BigIntegerValue();
     }
+    
+    public BigInteger GetBigInteger(string key)
+    {
+        return GetNumberNode(key).BigIntegerValue();
+    }
 
     public StringNode GetStringNode(ICharSequence key)
     {
         return (StringNode)GetNode(key);
     }
+    
+    public StringNode GetStringNode(string key)
+    {
+        return (StringNode)GetNode(key);
+    }
 
     public string GetString(ICharSequence key)
+    {
+        return GetStringNode(key).ToString();
+    }
+    
+    public string GetString(string key)
     {
         return GetStringNode(key).ToString();
     }
@@ -244,7 +301,17 @@ public class ObjectNode : ICollectionNode
         return (ObjectNode)GetNode(key);
     }
 
+    public ObjectNode GetObjectNode(string key)
+    {
+        return (ObjectNode)GetNode(key);
+    }
+
     public ArrayNode GetArrayNode(ICharSequence key)
+    {
+        return (ArrayNode)GetNode(key);
+    }
+    
+    public ArrayNode GetArrayNode(string key)
     {
         return (ArrayNode)GetNode(key);
     }
@@ -253,8 +320,18 @@ public class ObjectNode : ICollectionNode
     {
         return (BooleanNode)GetNode(key);
     }
+    
+    public BooleanNode GetBooleanNode(string key)
+    {
+        return (BooleanNode)GetNode(key);
+    }
 
     public bool GetBoolean(ICharSequence key)
+    {
+        return GetBooleanNode(key).BooleanValue();
+    }
+    
+    public bool GetBoolean(string key)
     {
         return GetBooleanNode(key).BooleanValue();
     }
@@ -281,10 +358,12 @@ public class ObjectNode : ICollectionNode
     private INode? LookupElement(ICharSequence key)
     {
         if (_elementMap == null) _elementMap = new Dictionary<object, INode>();
-        var node = _elementMap[key];
+        
+        
 
+        INode node = null;
 
-        if (node == null)
+        if (!_elementMap.ContainsKey(key))
         {
             var childrenTokens = ChildrenTokens();
             for (var index = 0; index < childrenTokens.Count; index += 2)
@@ -298,6 +377,10 @@ public class ObjectNode : ICollectionNode
                     break;
                 }
             }
+        }
+        else
+        {
+            node = _elementMap[key];
         }
 
         return node;
