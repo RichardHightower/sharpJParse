@@ -23,7 +23,7 @@ public class JsonFastParser : ParseConstants, IJsonParser
 
     public RootNode Parse(ICharSource source)
     {
-        throw new NotImplementedException();
+        return new RootNode(Scan(source), source, objectsKeysCanBeEncoded);
     }
 
     private TokenList Scan(ICharSource source, TokenList tokens)
