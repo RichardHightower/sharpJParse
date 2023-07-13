@@ -329,6 +329,12 @@ public class StringNode : IScalarNode
             return CharSequenceUtils.Equals(this, other);
         }
 
+        if (o is string)
+        {
+            var other = (string)o;
+            return CharSequenceUtils.EqualsContent(this, other);
+        }
+
         return false;
     }
 

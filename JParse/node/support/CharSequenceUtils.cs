@@ -19,6 +19,21 @@ public abstract class CharSequenceUtils
         return true;
     }
 
+    public static bool EqualsContent(ICharSequence cs1, string str)
+    {
+        if (cs1.Length != str.Length) return false;
+        var len = cs1.Length;
+
+        for (var i = 0; i < len; i++)
+        {
+            var a = cs1[i];
+            var b = str[i];
+            if (a != b) return false;
+        }
+
+        return true;
+    }
+
     public static int GetHashCode(ICharSequence cs)
     {
         var h = 0;
