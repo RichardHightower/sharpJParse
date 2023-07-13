@@ -1,4 +1,4 @@
-namespace JsonParser.source.support;
+namespace sharpJParse.JsonParser.source.support;
 
 public class UnexpectedCharacterException : Exception
 {

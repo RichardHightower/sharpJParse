@@ -1,5 +1,5 @@
-using JsonParser.source.support;
-using JsonParser.support;
+using sharpJParse.JsonParser.source.support;
+using sharpJParse.JsonParser.support;
 
 namespace sharpJParse;
 

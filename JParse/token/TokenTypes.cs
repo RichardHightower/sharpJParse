@@ -1,4 +1,4 @@
-namespace JsonParser.token
+namespace sharpJParse.JsonParser.token
 {
     public class TokenTypes
     {

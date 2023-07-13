@@ -1,7 +1,7 @@
 using System.Numerics;
-using JsonParser.support;
+using sharpJParse.JsonParser.support;
 
-namespace JsonParser.source;
+namespace sharpJParse.JsonParser.source;
 
 public class NumberParseResult
 {

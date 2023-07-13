@@ -1,8 +1,8 @@
-using JsonParser.node.support;
-using JsonParser.parser;
-using JsonParser.parser.indexoverlay;
-using JsonParser.source;
-using JsonParser.token;
+using sharpJParse.JsonParser.node.support;
+using sharpJParse.JsonParser.parser;
+using sharpJParse.JsonParser.parser.indexoverlay;
+using sharpJParse.JsonParser.source;
+using sharpJParse.JsonParser.token;
 using static sharpJParse.JsonTestUtils;
 
 namespace sharpJParse;
@@ -78,7 +78,7 @@ public class JsonScannerTest
         IJsonParser parser = JsonParser();
         //...................0123
         const string json = "1 ";
-        TokenList tokens = parser.Scan(Sources.StringSource(json));
+        TokenList tokens = parser.Scan(json);
         Assert.AreEqual(1, tokens.Count         );
         Token token = tokens[0];
         Assert.AreEqual(0, token.StartIndex);
@@ -91,7 +91,7 @@ public class JsonScannerTest
         IJsonParser parser = JsonParser();
 
         const string json = "1";
-        TokenList tokens = parser.Scan(Sources.StringSource(json));
+        TokenList tokens = parser.Scan(json);
         Assert.AreEqual(1, tokens.Count);
         Token token = tokens[0];
         Assert.AreEqual(0, token.StartIndex);

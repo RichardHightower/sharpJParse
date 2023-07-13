@@ -1,7 +1,7 @@
 using System.Numerics;
-using JsonParser.support;
+using sharpJParse.JsonParser.support;
 
-namespace JsonParser.node;
+namespace sharpJParse.JsonParser.node;
 
 public interface IScalarNode : INode
 {

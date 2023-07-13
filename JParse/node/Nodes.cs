@@ -1,10 +1,10 @@
 using System.Numerics;
-using JsonParser.node.support;
-using JsonParser.source;
-using JsonParser.support;
-using JsonParser.token;
+using sharpJParse.JsonParser.node.support;
+using sharpJParse.JsonParser.source;
+using sharpJParse.JsonParser.support;
+using sharpJParse.JsonParser.token;
 
-namespace JsonParser.node;
+namespace sharpJParse.JsonParser.node;
 
 public class RootNode : ICollectionNode
 {
@@ -39,8 +39,7 @@ public class RootNode : ICollectionNode
 
     List<TokenSubList> ICollectionNode.ChildrenTokens()
     {
-        //TODO
-        throw new NotImplementedException();
+        return ChildrenTokens();
     }
 
 
@@ -127,11 +126,6 @@ public class RootNode : ICollectionNode
         return (ObjectNode)GetNode();
     }
 
-    public Dictionary<string, object> GetMap()
-    {
-        return (Dictionary<string, object>)(object)GetObjectNode();
-    }
-
     public StringNode GetStringNode()
     {
         return (StringNode)GetNode();
@@ -207,8 +201,7 @@ public class RootNode : ICollectionNode
 
     public override int GetHashCode()
     {
-        //return GetNode().GetHashCode(); TODO fix 
-        return 1;
+        return GetNode().GetHashCode(); 
     }
 }
 

@@ -1,6 +1,8 @@
-using JsonParser.node.support;
 
-namespace JsonParser.node;
+
+using sharpJParse.JsonParser.node.support;
+
+namespace sharpJParse.JsonParser.node;
 
 public interface ICollectionNode : INode
 {

@@ -1,7 +1,7 @@
 using System.Collections;
-using JsonParser.token;
+using sharpJParse.JsonParser.token;
 
-namespace JsonParser.node.support;
+namespace sharpJParse.JsonParser.node.support;
 
 public class TokenList : IList<Token>
 {
@@ -156,6 +156,5 @@ public class TokenList : IList<Token>
     public void UndoPlaceHolder()
     {
         Count--;
-        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,6 @@
-using JsonParser.source;
+using sharpJParse.JsonParser.source;
 
-namespace JsonParser.token;
+namespace sharpJParse.JsonParser.token;
 
 /*
  * Copyright 2013-2023 Richard M. Hightower

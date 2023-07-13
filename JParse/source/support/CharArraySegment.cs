@@ -1,6 +1,6 @@
-using JsonParser.support;
+using sharpJParse.JsonParser.support;
 
-namespace JsonParser.source.support;
+namespace sharpJParse.JsonParser.source.support;
 
 public class CharArraySegment : ICharSequence
 {

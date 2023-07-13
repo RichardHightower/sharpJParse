@@ -1,4 +1,4 @@
-namespace JsonParser.source;
+namespace sharpJParse.JsonParser.source;
 
 public class Sources
 {

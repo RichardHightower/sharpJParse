@@ -1,6 +1,6 @@
-using JsonParser.support;
+using sharpJParse.JsonParser.support;
 
-namespace JsonParser.node.support;
+namespace sharpJParse.JsonParser.node.support;
 
 public abstract class CharSequenceUtils
 {

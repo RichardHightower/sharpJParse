@@ -1,8 +1,8 @@
-using JsonParser.node.support;
-using JsonParser.source;
-using JsonParser.token;
+using sharpJParse.JsonParser.node.support;
+using sharpJParse.JsonParser.source;
+using sharpJParse.JsonParser.token;
 
-namespace JsonParser.node;
+namespace sharpJParse.JsonParser.node;
 
 public abstract class NodeUtils
 {

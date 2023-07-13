@@ -1,4 +1,4 @@
-namespace JsonParser.parser;
+namespace sharpJParse.JsonParser.parser;
 
 public abstract class ParseConstants
 {

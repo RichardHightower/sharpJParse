@@ -1,6 +1,6 @@
-using JsonParser.token;
+using sharpJParse.JsonParser.token;
 
-namespace JsonParser.node;
+namespace sharpJParse.JsonParser.node;
 
 public enum NodeType : short
 {

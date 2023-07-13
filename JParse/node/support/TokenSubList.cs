@@ -1,7 +1,7 @@
 using System.Collections;
-using JsonParser.token;
+using sharpJParse.JsonParser.token;
 
-namespace JsonParser.node.support;
+namespace sharpJParse.JsonParser.node.support;
 
 public class TokenSubList : IList<Token>
 {

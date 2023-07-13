@@ -1,9 +1,9 @@
 using System.Numerics;
-using JsonParser.parser;
-using JsonParser.source.support;
-using JsonParser.support;
+using sharpJParse.JsonParser.parser;
+using sharpJParse.JsonParser.source.support;
+using sharpJParse.JsonParser.support;
 
-namespace JsonParser.source;
+namespace sharpJParse.JsonParser.source;
 
 public class CharArrayCharSource : ParseConstants, ICharSource
 {

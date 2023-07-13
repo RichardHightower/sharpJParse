@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace JsonParser.node.support;
+namespace sharpJParse.JsonParser.node.support;
 
 public class SingletonList<T> : IList<T>
 {

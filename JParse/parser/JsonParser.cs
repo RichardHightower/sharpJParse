@@ -1,9 +1,10 @@
-using JsonParser.node;
-using JsonParser.node.support;
-using JsonParser.source;
-using JsonParser.token;
 
-namespace JsonParser.parser;
+
+using sharpJParse.JsonParser.node;
+using sharpJParse.JsonParser.node.support;
+using sharpJParse.JsonParser.source;
+
+namespace sharpJParse.JsonParser.parser;
 
 public interface IJsonParser 
 {

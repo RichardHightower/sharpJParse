@@ -1,4 +1,4 @@
-namespace JsonParser.support;
+namespace sharpJParse.JsonParser.support;
 
 public class CharArrayUtils
 {

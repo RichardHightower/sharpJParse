@@ -1,10 +1,11 @@
-using JsonParser.node;
-using JsonParser.node.support;
-using JsonParser.source;
-using JsonParser.source.support;
-using JsonParser.token;
 
-namespace JsonParser.parser.indexoverlay;
+using sharpJParse.JsonParser.node;
+using sharpJParse.JsonParser.node.support;
+using sharpJParse.JsonParser.source;
+using sharpJParse.JsonParser.source.support;
+using sharpJParse.JsonParser.token;
+
+namespace sharpJParse.JsonParser.parser.indexoverlay;
 
 public class JsonFastParser : ParseConstants, IJsonParser
 {
