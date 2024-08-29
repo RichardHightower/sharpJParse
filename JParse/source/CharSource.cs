@@ -96,9 +96,9 @@ public interface ICharSource
     int FindNullEnd();
 
 
-    bool MatchChars(int startIndex, int endIndex, string key);
+   // bool MatchChars(int startIndex, int endIndex, string key);
 
-    bool MatchChars(int startIndex, int endIndex, char[] key);
+   // bool MatchChars(int startIndex, int endIndex, char[] key);
 
     bool MatchChars(int startIndex, int endIndex, ICharSequence key);
 

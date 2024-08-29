@@ -106,7 +106,7 @@ public abstract class ParseConstants
     /**
      * End of text
      */
-    public static readonly int Etx = 3;
+    public  const  char Etx = (char)3;
 
     public static readonly string MinIntStr = "" + int.MinValue;
     public static readonly string MaxIntStr = "" + int.MaxValue;

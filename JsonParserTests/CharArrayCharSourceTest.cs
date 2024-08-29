@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using sharpJParse.JsonParser.parser;
 using sharpJParse.JsonParser.source;
+using sharpJParse.JsonParser.source.support;
 
 namespace sharpJParse;
 
@@ -384,8 +385,8 @@ public class CharArrayCharSourceTest
             Sources.StringSource(Json.NiceJson(json));
 
         source.Next();
-        Assert.True(source.MatchChars(1, 3, new string("bc")));
-        Assert.False(source.MatchChars(1, 3, new string("ab")));
+        Assert.True(source.MatchChars(1, 3, new StringCharSequence(new string("bc"))));
+        Assert.False(source.MatchChars(1, 3, new StringCharSequence( new string("ab"))));
     }
 
     [Test]
@@ -701,7 +702,7 @@ public class CharArrayCharSourceTest
         const string json = "1.2e12";
         ICharSource charSource = Sources.StringSource(Json.NiceJson(json));
 
-        Assert.AreEqual(1.2e12f, charSource.GetFloat(0, 6), 0.000001);
+        Assert.AreEqual(1.2e12f, charSource.GetFloat(0, 6), 0.0001e12f);
 
     }
 

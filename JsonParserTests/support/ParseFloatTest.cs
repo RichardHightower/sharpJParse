@@ -219,5 +219,17 @@ namespace sharpJParse.support
             float result = ParseFloatSupport.ParseFloat(chars, 0, chars.Length);
             Assert.AreEqual(float.Parse(str), result, 0.00001f);
         }
+        
+        [Test]
+        public void ParseFloatExp() {
+            // .......................012345
+            //...................01234567890123456789
+            const string str = "1.2e12";
+            char[] chars = str.ToCharArray();
+            
+            float result = ParseFloatSupport.ParseFloat(chars, 0, chars.Length);
+            Assert.AreEqual(float.Parse(str), result, 0.0001e12f);
+            
+        }
     }
 }
