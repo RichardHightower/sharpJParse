@@ -9,12 +9,18 @@ namespace sharpJParse.JsonParser.parser.indexoverlay;
 
 public class JsonFastParser : ParseConstants, IJsonParser
 {
-    private bool objectsKeysCanBeEncoded;
+    private readonly bool _objectsKeysCanBeEncoded;
 
-
+    public RootNode Parse(string source) {
+        return Parse(Sources.StringSource(source));
+    }
+    public TokenList Scan(string source) {
+        return Scan(Sources.StringSource(source));
+    }
+    
     public JsonFastParser(bool objectsKeysCanBeEncoded)
     {
-        this.objectsKeysCanBeEncoded = objectsKeysCanBeEncoded;
+        _objectsKeysCanBeEncoded = objectsKeysCanBeEncoded;
     }
 
     public TokenList Scan(ICharSource source)
@@ -24,7 +30,7 @@ public class JsonFastParser : ParseConstants, IJsonParser
 
     public RootNode Parse(ICharSource source)
     {
-        return new RootNode(Scan(source), source, objectsKeysCanBeEncoded);
+        return new RootNode(Scan(source), source, _objectsKeysCanBeEncoded);
     }
 
     private TokenList Scan(ICharSource source, TokenList tokens)
@@ -217,7 +223,7 @@ private bool ParseKey(ICharSource source, TokenList tokens)
     {
         case StringStartToken:
             int strStartIndex = startIndex + 1;
-            int strEndIndex = objectsKeysCanBeEncoded ? source.FindEndOfEncodedString() : source.FindEndString();
+            int strEndIndex = _objectsKeysCanBeEncoded ? source.FindEndOfEncodedString() : source.FindEndString();
             tokens.Add(new Token(strStartIndex + 1, strEndIndex, TokenTypes.STRING_TOKEN));
             found = true;
             break;

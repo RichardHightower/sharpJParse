@@ -9,11 +9,7 @@ namespace sharpJParse.JsonParser.parser;
 public interface IJsonParser 
 {
     TokenList Scan( ICharSource source);
-    RootNode Parse(ICharSource source); 
-    RootNode Parse(string source) {
-        return Parse(Sources.StringSource(source));
-    }
-    TokenList Scan(string source) {
-        return Scan(Sources.StringSource(source));
-    }
+    RootNode Parse(ICharSource source);
+    RootNode Parse(string source);
+    TokenList Scan(string source);
 }
